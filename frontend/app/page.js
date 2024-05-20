@@ -1,10 +1,23 @@
+'use client';
+
+import { useEffect, useState } from 'react'
 import Image from "next/image";
 import styles from "./page.module.css";
 
 export default function Home() {
-  return (
-    <p>
-      Hello World!
-    </p>
-  );
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  fetch('/api/')
+      .then(res => res.json())
+      .then(data => {
+          setMessage(data.hello);
+          setLoading(false);
+      })
+
+    return (
+        <div className={styles.container}>
+            <p> {!loading ? message : "Loading.."}</p>
+        </div>
+    );
 }
