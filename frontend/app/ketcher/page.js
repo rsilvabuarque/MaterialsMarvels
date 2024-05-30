@@ -1,6 +1,7 @@
 "use client";
 
 import 'ketcher-react/dist/index.css';
+import './page.module.css';
 import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
 import { StandaloneStructServiceProvider } from 'ketcher-standalone';
@@ -26,7 +27,8 @@ export default function EditorPage() {
   const structServiceProvider = new StandaloneStructServiceProvider();
 
   return (
-      <div style={{ position: 'relative', height: '100vh', overflow: 'hidden' }}>
+    <>
+      <div style={{ position: 'relative', height: '80vh', overflow: 'hidden' }}>
         <Editor
           staticResourcesUrl={process.env.PUBLIC_URL}
           structServiceProvider={structServiceProvider}
@@ -35,7 +37,8 @@ export default function EditorPage() {
             window.ketcher = ketcher;
           }}
         />
-        <LoadingButton>Visualise Structure</LoadingButton>{' '}
       </div>
+      <LoadingButton>Visualise Structure</LoadingButton>{' '}
+    </>
   );
 }

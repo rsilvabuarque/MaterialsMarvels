@@ -21,7 +21,7 @@ class Visualize(Resource):
     def post(self):
         # Parse the input data
         parser = reqparse.RequestParser()
-        parser.add_argument('molfile', type=str, help='The molfile input (v3000)')
+        parser.add_argument('molfile', type=str, help='The molfile input (v2000)')
         args = parser.parse_args()
 
         # Find an unused filename from molfile1.mol, molfile2.mol, ...

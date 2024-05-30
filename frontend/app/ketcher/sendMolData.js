@@ -1,5 +1,5 @@
 function sendMolData() {
-    window.ketcher.getMolfile('v3000').then((molfile) => {
+    window.ketcher.getMolfile('v2000').then((molfile) => {
       // Send the molfile to the Flask API and retrieve the output after computation
       fetch('/api/visualize', {
         method: 'POST',
