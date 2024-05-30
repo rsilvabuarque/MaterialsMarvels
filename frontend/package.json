@@ -9,9 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "ketcher-core": "^2.20.0",
+    "ketcher-react": "^2.20.0",
+    "ketcher-standalone": "^2.20.0",
+    "next": "14.2.3",
     "react": "^18",
-    "react-dom": "^18",
-    "next": "14.2.3"
+    "react-dom": "^18"
   },
   "devDependencies": {
     "eslint": "^8",
