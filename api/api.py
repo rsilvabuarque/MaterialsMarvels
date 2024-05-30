@@ -25,6 +25,9 @@ class Visualize(Resource):
         args = parser.parse_args()
 
         # Find an unused filename from molfile1.mol, molfile2.mol, ...
+        if not os.path.exists('temp'):
+            os.makedirs('temp')
+        
         i = 1
         while os.path.exists(f'temp/molfile{i}.mol'):
             i += 1
