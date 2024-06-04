@@ -4,6 +4,7 @@
 
 - [Install](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) `Node.js` and `npm`
 - Install Python 3.10
+- Install LAMMPS on the machine
 
 ### Install and Activate Venv
 
