@@ -7,10 +7,6 @@ import { useEffect, useState } from 'react';
 import { StandaloneStructServiceProvider } from 'ketcher-standalone';
 import LoadingButton from './LoadingBtn';
 
-// Dynamically import the Editor component from ketcher-react
-const Editor = dynamic(() => import('ketcher-react').then(mod => mod.Editor), {
-  ssr: false,
-});
 
 export default function EditorPage() {
   const [isClient, setIsClient] = useState(false);
@@ -20,9 +16,14 @@ export default function EditorPage() {
     setIsClient(true);
   }, []);
 
-  if (!isClient) {
+  if (!isClient || typeof window === 'undefined') {
     return <div style={{ position: 'relative', height: '100vh', overflow: 'hidden' }}>Loading...</div>;
   }
+
+  // Dynamically import the Editor component from ketcher-react
+  const Editor = dynamic(() => import('ketcher-react').then(mod => mod.Editor), {
+    ssr: false,
+  });
 
   const structServiceProvider = new StandaloneStructServiceProvider();
 
@@ -34,11 +35,19 @@ export default function EditorPage() {
           structServiceProvider={structServiceProvider}
           style={{ width: '100%', height: '100%' }}
           onInit={(ketcher) => {
-            window.ketcher = ketcher;
+            // If window defined, attach the ketcher instance to it
+            if (typeof window !== 'undefined'){
+              window.ketcher = ketcher;
+            } else {
+              // Try again later
+              setTimeout(() => {
+                window.ketcher = ketcher;
+              }, 1000);
+            }
           }}
         />
       </div>
-      <LoadingButton>Visualise Structure</LoadingButton>{' '}
+      <LoadingButton>Visualise Structure</LoadingButton>
     </>
   );
 }
