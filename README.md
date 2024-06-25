@@ -24,6 +24,12 @@ python3 -m venv .venv
 pip3 install -r requirements.txt
 ```
 
+### Install Node.js packages
+```bash
+cd frontend
+npm install
+```
+
 ## Running the App
 - Run the `api.py` file when in the `api` directory: `python3 api.py`
 - Run `npm run dev` when in the `frontend` directory
