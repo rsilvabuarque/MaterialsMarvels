@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>nglview-demo</title>
+</head>
+<body>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.0/jquery-ui.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+
+
+<!-- Load require.js. Delete this if your page already loads require.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js" crossorigin="anonymous"></script>
+
+<script type="application/vnd.jupyter.widget-state+json">
+{
+  "version_major": 2,
+  "version_minor": 0,
+  "state": {
+    "06a039d0671d4ad8b4c31a1a305fc371": {
+      "model_name": "LayoutModel",
+      "model_module": "@jupyter-widgets/base",
+      "model_module_version": "2.0.0",
+      "state": {}
+    },
+    "7a903c717ccb4502978ef6829690c0ce": {
+      "model_name": "ColormakerRegistryModel",
+      "model_module": "nglview-js-widgets",
+      "model_module_version": "3.1.0",
+      "state": {
+        "_dom_classes": [],
+        "_msg_ar": [],
+        "_msg_q": [],
+        "layout": "IPY_MODEL_06a039d0671d4ad8b4c31a1a305fc371"
+      }
+    },
+    "0e9d536263db411aa37c3a089bba80eb": {
+      "model_name": "LayoutModel",
+      "model_module": "@jupyter-widgets/base",
+      "model_module_version": "2.0.0",
+      "state": {}
+    },
+    "d4269d59359744cd89fa77dec8a66336": {
+      "model_name": "NGLModel",
+      "model_module": "nglview-js-widgets",
+      "model_module_version": "3.1.0",
+      "state": {
+        "_camera_orientation": [],
+        "_dom_classes": [],
+        "_ibtn_fullscreen": "IPY_MODEL_1391e7a8696f443d9d6757143684a439",
+        "_igui": null,
+        "_iplayer": "IPY_MODEL_93b381efab7240e5997c807f6618628d",
+        "_ngl_color_dict": {},
+        "_ngl_coordinate_resource": {},
+        "_ngl_full_stage_parameters": {},
+        "_ngl_msg_archive": [
+          {
+            "target": "Stage",
+            "type": "call_method",
+            "methodName": "loadFile",
+            "reconstruc_color_scheme": false,
+            "args": [
+              {
+                "type": "blob",
+                "data": "REMARK   1 CREATED WITH MDTraj 1.10.0, 2024-07-12\nCRYST1    5.696    5.696   28.052  90.00  90.00 120.00 P 1           1 \nMODEL        0\nATOM      0 LI   UNL A   1       0.000  -0.000  -0.000  1.00  0.00          Li  \nATOM      1 LI   UNL A   2       0.000  -0.000  14.026  1.00  0.00          Li  \nATOM      2 LI   UNL A   3      -1.424   2.466  -0.000  1.00  0.00          Li  \nATOM      3 LI   UNL A   4      -1.424   2.466  14.026  1.00  0.00          Li  \nATOM      4 LI   UNL A   5       2.848  -0.000  -0.000  1.00  0.00          Li  \nATOM      5 LI   UNL A   6       2.848  -0.000  14.026  1.00  0.00          Li  \nATOM      6 LI   UNL A   7       1.424   2.466  -0.000  1.00  0.00          Li  \nATOM      7 LI   UNL A   8       1.424   2.466  14.026  1.00  0.00          Li  \nATOM      8 LI   UNL A   9       1.424   0.822   4.675  1.00  0.00          Li  \nATOM      9 LI   UNL A  10       1.424   0.822  18.701  1.00  0.00          Li  \nATOM     10 LI   UNL A  11      -0.000   3.289   4.675  1.00  0.00          Li  \nATOM     11 LI   UNL A  12       0.000   3.289  18.701  1.00  0.00          Li  \nATOM     12 LI   UNL A  13       4.272   0.822   4.675  1.00  0.00          Li  \nATOM     13 LI   UNL A  14       4.272   0.822  18.701  1.00  0.00          Li  \nATOM     14 LI   UNL A  15       2.848   3.289   4.675  1.00  0.00          Li  \nATOM     15 LI   UNL A  16       2.848   3.289  18.701  1.00  0.00          Li  \nATOM     16 LI   UNL A  17       0.000   1.644   9.351  1.00  0.00          Li  \nATOM     17 LI   UNL A  18       0.000   1.644  23.377  1.00  0.00          Li  \nATOM     18 LI   UNL A  19      -1.424   4.111   9.351  1.00  0.00          Li  \nATOM     19 LI   UNL A  20      -1.424   4.111  23.377  1.00  0.00          Li  \nATOM     20 LI   UNL A  21       2.848   1.644   9.351  1.00  0.00          Li  \nATOM     21 LI   UNL A  22       2.848   1.644  23.377  1.00  0.00          Li  \nATOM     22 LI   UNL A  23       1.424   4.111   9.351  1.00  0.00          Li  \nATOM     23 LI   UNL A  24       1.424   4.111  23.377  1.00  0.00          Li  \nATOM     24 CO   UNL A  25      -0.000   1.644   2.338  1.00  0.00          Co  \nATOM     25 CO   UNL A  26      -0.000   1.644  16.364  1.00  0.00          Co  \nATOM     26 CO   UNL A  25      -1.424   4.111   2.338  1.00  0.00          Co  \nATOM     27 CO   UNL A  26      -1.424   4.111  16.364  1.00  0.00          Co  \nATOM     28 CO   UNL A  25       2.848   1.644   2.338  1.00  0.00          Co  \nATOM     29 CO   UNL A  26       2.848   1.644  16.364  1.00  0.00          Co  \nATOM     30 CO   UNL A  25       1.424   4.111   2.338  1.00  0.00          Co  \nATOM     31 CO   UNL A  26       1.424   4.111  16.364  1.00  0.00          Co  \nATOM     32 CO   UNL A  27       1.424   2.466   7.013  1.00  0.00          Co  \nATOM     33 CO   UNL A  28       1.424   2.466  21.039  1.00  0.00          Co  \nATOM     34 CO   UNL A  27      -0.000   4.933   7.013  1.00  0.00          Co  \nATOM     35 CO   UNL A  28       2.848  -0.000  21.039  1.00  0.00          Co  \nATOM     36 CO   UNL A  27      -1.424   2.466   7.013  1.00  0.00          Co  \nATOM     37 CO   UNL A  28       4.272   2.466  21.039  1.00  0.00          Co  \nATOM     38 CO   UNL A  27       0.000  -0.000   7.013  1.00  0.00          Co  \nATOM     39 CO   UNL A  28      -0.000  -0.000  21.039  1.00  0.00          Co  \nATOM     40 CO   UNL A  29       1.424   0.822  11.688  1.00  0.00          Co  \nATOM     41 CO   UNL A  30       1.424   0.822  25.714  1.00  0.00          Co  \nATOM     42 CO   UNL A  29      -0.000   3.289  11.688  1.00  0.00          Co  \nATOM     43 CO   UNL A  30       0.000   3.289  25.714  1.00  0.00          Co  \nATOM     44 CO   UNL A  29       4.272   0.822  11.688  1.00  0.00          Co  \nATOM     45 CO   UNL A  30       4.272   0.822  25.714  1.00  0.00          Co  \nATOM     46 CO   UNL A  29       2.848   3.289  11.688  1.00  0.00          Co  \nATOM     47 CO   UNL A  30       2.848   3.289  25.714  1.00  0.00          Co  \nATOM     48  O   UNL A  25       0.000  -0.000   3.365  1.00  0.00           O  \nATOM     49  O   UNL A  26       0.000  -0.000  17.391  1.00  0.00           O  \nATOM     50  O   UNL A  25       4.272   2.466   3.365  1.00  0.00           O  \nATOM     51  O   UNL A  26       4.272   2.466  17.391  1.00  0.00           O  \nATOM     52  O   UNL A  25       2.848  -0.000   3.365  1.00  0.00           O  \nATOM     53  O   UNL A  26       2.848  -0.000  17.391  1.00  0.00           O  \nATOM     54  O   UNL A  25       1.424   2.466   3.365  1.00  0.00           O  \nATOM     55  O   UNL A  26       1.424   2.466  17.391  1.00  0.00           O  \nATOM     56  O   UNL A  25       1.424   0.822   1.310  1.00  0.00           O  \nATOM     57  O   UNL A  26       1.424   0.822  15.336  1.00  0.00           O  \nATOM     58  O   UNL A  25       0.000   3.289   1.310  1.00  0.00           O  \nATOM     59  O   UNL A  26       0.000   3.289  15.336  1.00  0.00           O  \nATOM     60  O   UNL A  25       4.272   0.822   1.310  1.00  0.00           O  \nATOM     61  O   UNL A  26       4.272   0.822  15.336  1.00  0.00           O  \nATOM     62  O   UNL A  25       2.848   3.289   1.310  1.00  0.00           O  \nATOM     63  O   UNL A  26       2.848   3.289  15.336  1.00  0.00           O  \nATOM     64  O   UNL A  27       1.424   0.822   8.040  1.00  0.00           O  \nATOM     65  O   UNL A  28       1.424   0.822  22.066  1.00  0.00           O  \nATOM     66  O   UNL A  27      -0.000   3.289   8.040  1.00  0.00           O  \nATOM     67  O   UNL A  28      -0.000   3.289  22.066  1.00  0.00           O  \nATOM     68  O   UNL A  27       4.272   0.822   8.040  1.00  0.00           O  \nATOM     69  O   UNL A  28       4.272   0.822  22.066  1.00  0.00           O  \nATOM     70  O   UNL A  27       2.848   3.289   8.040  1.00  0.00           O  \nATOM     71  O   UNL A  28       2.848   3.289  22.066  1.00  0.00           O  \nATOM     72  O   UNL A  27      -0.000   1.644   5.986  1.00  0.00           O  \nATOM     73  O   UNL A  28       0.000   1.644  20.012  1.00  0.00           O  \nATOM     74  O   UNL A  27      -1.424   4.111   5.986  1.00  0.00           O  \nATOM     75  O   UNL A  28      -1.424   4.111  20.012  1.00  0.00           O  \nATOM     76  O   UNL A  27       2.848   1.644   5.986  1.00  0.00           O  \nATOM     77  O   UNL A  28       2.848   1.644  20.012  1.00  0.00           O  \nATOM     78  O   UNL A  27       1.424   4.111   5.986  1.00  0.00           O  \nATOM     79  O   UNL A  28       1.424   4.111  20.012  1.00  0.00           O  \nATOM     80  O   UNL A  29       0.000   1.644  12.716  1.00  0.00           O  \nATOM     81  O   UNL A  30       0.000   1.644  26.742  1.00  0.00           O  \nATOM     82  O   UNL A  29      -1.424   4.111  12.716  1.00  0.00           O  \nATOM     83  O   UNL A  30      -1.424   4.111  26.742  1.00  0.00           O  \nATOM     84  O   UNL A  29       2.848   1.644  12.716  1.00  0.00           O  \nATOM     85  O   UNL A  30       2.848   1.644  26.742  1.00  0.00           O  \nATOM     86  O   UNL A  29       1.424   4.111  12.716  1.00  0.00           O  \nATOM     87  O   UNL A  30       1.424   4.111  26.742  1.00  0.00           O  \nATOM     88  O   UNL A  29       0.000  -0.000  10.661  1.00  0.00           O  \nATOM     89  O   UNL A  30      -0.000  -0.000  24.687  1.00  0.00           O  \nATOM     90  O   UNL A  29      -1.424   2.466  10.661  1.00  0.00           O  \nATOM     91  O   UNL A  30      -1.424   2.466  24.687  1.00  0.00           O  \nATOM     92  O   UNL A  29      -0.000   4.933  10.661  1.00  0.00           O  \nATOM     93  O   UNL A  30       0.000   4.933  24.687  1.00  0.00           O  \nATOM     94  O   UNL A  29       1.424   2.466  10.661  1.00  0.00           O  \nATOM     95  O   UNL A  30       1.424   2.466  24.687  1.00  0.00           O  \nTER      96      UNL A  30\nENDMDL\nCONECT    1    3\nCONECT    3    1\nCONECT    4    6\nCONECT    5    7\nCONECT    6    4\nCONECT    7    5\nCONECT    8   12\nCONECT    9   13\nCONECT   10   14\nCONECT   11   15\nCONECT   12    8\nCONECT   13    9\nCONECT   14   10\nCONECT   15   11\nCONECT   16   20\nCONECT   17   21\nCONECT   18   22\nCONECT   19   23\nCONECT   20   16\nCONECT   21   17\nCONECT   22   18\nCONECT   23   19\nCONECT   24   48   50   54\nCONECT   24   58   60\nCONECT   25   49   51   55\nCONECT   25   59   61\nCONECT   26   48   50   52\nCONECT   26   58   62\nCONECT   27   49   51   53\nCONECT   27   59   63\nCONECT   28   50   52   54\nCONECT   28   60   62\nCONECT   29   51   53   55\nCONECT   29   61   63\nCONECT   30   48   52   54\nCONECT   30   60   62\nCONECT   31   49   53   55\nCONECT   31   61   63\nCONECT   32   64   66   70\nCONECT   32   76   78\nCONECT   33   65   67   71\nCONECT   33   77   79\nCONECT   34   64   66   68\nCONECT   34   76   78\nCONECT   35   65   67   69\nCONECT   35   77   79\nCONECT   36   66   68   70\nCONECT   36   74   76\nCONECT   37   67   69   71\nCONECT   37   75   77\nCONECT   38   64   68   70\nCONECT   38   74   78\nCONECT   39   65   69   71\nCONECT   39   75   79\nCONECT   40   80   82   84\nCONECT   40   92   94\nCONECT   41   81   83   85\nCONECT   41   93   95\nCONECT   42   80   82   86\nCONECT   42   92   94\nCONECT   43   81   83   87\nCONECT   43   93   95\nCONECT   44   80   84   86\nCONECT   44   90   92\nCONECT   45   81   85   87\nCONECT   45   91   93\nCONECT   46   82   84   86\nCONECT   46   90   94\nCONECT   47   83   85   87\nCONECT   47   91   95\nCONECT   48   24   26   30\nCONECT   49   25   27   31\nCONECT   50   24   26   28\nCONECT   51   25   27   29\nCONECT   52   26   28   30\nCONECT   53   27   29   31\nCONECT   54   24   28   30\nCONECT   55   25   29   31\nCONECT   56   24   26   28\nCONECT   57   25   27   29\nCONECT   58   24   26   30\nCONECT   59   25   27   31\nCONECT   60   24   28   30\nCONECT   61   25   29   31\nCONECT   62   26   28   30\nCONECT   63   27   29   31\nCONECT   64   32   34   38\nCONECT   65   33   35   39\nCONECT   66   32   34   36\nCONECT   67   33   35   37\nCONECT   68   34   36   38\nCONECT   69   35   37   39\nCONECT   70   32   36   38\nCONECT   71   33   37   39\nCONECT   72   32   36   38\nCONECT   73   33   37   39\nCONECT   74   34   36   38\nCONECT   75   35   37   39\nCONECT   76   32   34   36\nCONECT   77   33   35   37\nCONECT   78   32   34   38\nCONECT   79   33   35   39\nCONECT   80   40   42   44\nCONECT   81   41   43   45\nCONECT   82   40   42   46\nCONECT   83   41   43   47\nCONECT   84   40   44   46\nCONECT   85   41   45   47\nCONECT   86   42   44   46\nCONECT   87   43   45   47\nCONECT   88   40   44   46\nCONECT   89   41   45   47\nCONECT   90   42   44   46\nCONECT   91   43   45   47\nCONECT   92   40   42   44\nCONECT   93   41   43   45\nCONECT   94   40   42   46\nCONECT   95   41   43   47\nEND\n",
+                "binary": false
+              }
+            ],
+            "kwargs": {
+              "name": "nglview.adaptor.MDTrajTrajectory",
+              "defaultRepresentation": true,
+              "ext": "pdb"
+            }
+          }
+        ],
+        "_ngl_original_stage_parameters": {},
+        "_ngl_repr_dict": {},
+        "_ngl_serialize": true,
+        "_ngl_view_id": [],
+        "_player_dict": {},
+        "_scene_position": {},
+        "_scene_rotation": {},
+        "_synced_model_ids": [],
+        "_synced_repr_model_ids": [],
+        "layout": "IPY_MODEL_0e9d536263db411aa37c3a089bba80eb",
+        "max_frame": 20,
+        "picked": {}
+      }
+    },
+    "dddfcfc1025a4d8591db76948205235a": {
+      "model_name": "LayoutModel",
+      "model_module": "@jupyter-widgets/base",
+      "model_module_version": "2.0.0",
+      "state": {}
+    },
+    "43b633e0a9a349e2876c9c6f9e0319ca": {
+      "model_name": "ImageModel",
+      "model_module": "@jupyter-widgets/controls",
+      "model_module_version": "2.0.0",
+      "state": {
+        "_dom_classes": [],
+        "layout": "IPY_MODEL_dddfcfc1025a4d8591db76948205235a",
+        "width": "900.0"
+      }
+    },
+    "705656378a3b4dc2a9ee020c70c0e337": {
+      "model_name": "LayoutModel",
+      "model_module": "@jupyter-widgets/base",
+      "model_module_version": "2.0.0",
+      "state": {}
+    },
+    "0914fdbf32674c738dce2069547e9cb5": {
+      "model_name": "DescriptionStyleModel",
+      "model_module": "@jupyter-widgets/controls",
+      "model_module_version": "2.0.0",
+      "state": {}
+    },
+    "231a3ee9190143d3b59ce26fe384aa47": {
+      "model_name": "PlayModel",
+      "model_module": "@jupyter-widgets/controls",
+      "model_module_version": "2.0.0",
+      "state": {
+        "_dom_classes": [],
+        "layout": "IPY_MODEL_705656378a3b4dc2a9ee020c70c0e337",
+        "max": 20,
+        "style": "IPY_MODEL_0914fdbf32674c738dce2069547e9cb5"
+      }
+    },
+    "d5e8186566954157bc852d75c9174542": {
+      "model_name": "LayoutModel",
+      "model_module": "@jupyter-widgets/base",
+      "model_module_version": "2.0.0",
+      "state": {}
+    },
+    "6a1ce04e3520486b8985187607f79ac1": {
+      "model_name": "SliderStyleModel",
+      "model_module": "@jupyter-widgets/controls",
+      "model_module_version": "2.0.0",
+      "state": {}
+    },
+    "f7ea0f673bdd40ddb6f35fc58b67fb40": {
+      "model_name": "IntSliderModel",
+      "model_module": "@jupyter-widgets/controls",
+      "model_module_version": "2.0.0",
+      "state": {
+        "_dom_classes": [],
+        "layout": "IPY_MODEL_d5e8186566954157bc852d75c9174542",
+        "max": 20,
+        "style": "IPY_MODEL_6a1ce04e3520486b8985187607f79ac1"
+      }
+    },
+    "41647f6e70e24ef6baeb8f3b20f6ba09": {
+      "model_name": "LayoutModel",
+      "model_module": "@jupyter-widgets/base",
+      "model_module_version": "2.0.0",
+      "state": {}
+    },
+    "93b381efab7240e5997c807f6618628d": {
+      "model_name": "HBoxModel",
+      "model_module": "@jupyter-widgets/controls",
+      "model_module_version": "2.0.0",
+      "state": {
+        "_dom_classes": [],
+        "children": [
+          "IPY_MODEL_231a3ee9190143d3b59ce26fe384aa47",
+          "IPY_MODEL_f7ea0f673bdd40ddb6f35fc58b67fb40"
+        ],
+        "layout": "IPY_MODEL_41647f6e70e24ef6baeb8f3b20f6ba09"
+      }
+    },
+    "c94097b4679844349ae90aee1ac1b457": {
+      "model_name": "LinkModel",
+      "model_module": "@jupyter-widgets/controls",
+      "model_module_version": "2.0.0",
+      "state": {
+        "source": [
+          "IPY_MODEL_231a3ee9190143d3b59ce26fe384aa47",
+          "value"
+        ],
+        "target": [
+          "IPY_MODEL_f7ea0f673bdd40ddb6f35fc58b67fb40",
+          "value"
+        ]
+      }
+    },
+    "80336699481f4904a1bb8847eb3b5629": {
+      "model_name": "LinkModel",
+      "model_module": "@jupyter-widgets/controls",
+      "model_module_version": "2.0.0",
+      "state": {
+        "source": [
+          "IPY_MODEL_231a3ee9190143d3b59ce26fe384aa47",
+          "value"
+        ],
+        "target": [
+          "IPY_MODEL_d4269d59359744cd89fa77dec8a66336",
+          "frame"
+        ]
+      }
+    },
+    "186e055b030746fcb9de1cf37501ff48": {
+      "model_name": "LinkModel",
+      "model_module": "@jupyter-widgets/controls",
+      "model_module_version": "2.0.0",
+      "state": {
+        "source": [
+          "IPY_MODEL_231a3ee9190143d3b59ce26fe384aa47",
+          "max"
+        ],
+        "target": [
+          "IPY_MODEL_d4269d59359744cd89fa77dec8a66336",
+          "max_frame"
+        ]
+      }
+    },
+    "e4795421ac3a469685f5bdc405bc469d": {
+      "model_name": "LinkModel",
+      "model_module": "@jupyter-widgets/controls",
+      "model_module_version": "2.0.0",
+      "state": {
+        "source": [
+          "IPY_MODEL_f7ea0f673bdd40ddb6f35fc58b67fb40",
+          "max"
+        ],
+        "target": [
+          "IPY_MODEL_d4269d59359744cd89fa77dec8a66336",
+          "max_frame"
+        ]
+      }
+    },
+    "e5264f0d829249648b0f3614e4b5d28b": {
+      "model_name": "LayoutModel",
+      "model_module": "@jupyter-widgets/base",
+      "model_module_version": "2.0.0",
+      "state": {
+        "width": "34px"
+      }
+    },
+    "df0cbad2d0f34d5e9470887aad6ce3ec": {
+      "model_name": "ButtonStyleModel",
+      "model_module": "@jupyter-widgets/controls",
+      "model_module_version": "2.0.0",
+      "state": {}
+    },
+    "1391e7a8696f443d9d6757143684a439": {
+      "model_name": "ButtonModel",
+      "model_module": "@jupyter-widgets/controls",
+      "model_module_version": "2.0.0",
+      "state": {
+        "_dom_classes": [],
+        "icon": "compress",
+        "layout": "IPY_MODEL_e5264f0d829249648b0f3614e4b5d28b",
+        "style": "IPY_MODEL_df0cbad2d0f34d5e9470887aad6ce3ec"
+      }
+    }
+  }
+}
+</script>
+<script type="application/vnd.jupyter.widget-view+json">
+{"version_major": 2, "version_minor": 0, "model_id": "7a903c717ccb4502978ef6829690c0ce"}
+</script>
+<script type="application/vnd.jupyter.widget-view+json">
+{"version_major": 2, "version_minor": 0, "model_id": "d4269d59359744cd89fa77dec8a66336"}
+</script>
+
+</body>
+</html>

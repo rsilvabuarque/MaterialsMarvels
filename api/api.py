@@ -17,6 +17,19 @@ class HelloWorld(Resource):
     def get(self):
         return {'hello': 'world'}
 
+class TempFileHandler(Resource):
+    def get(self, filename):
+        # parser = reqparse.RequestParser()
+        # parser.add_argument('filename', type=str, help='The file name that you wish to retrieve from the temp directory')
+        # args = parser.parse_args()
+
+        # TODO - Add error handling for file not found
+        # TODO - Prevent directory traversal attacks by changing how this is done
+        with open(f'temp/{filename}', 'r') as f:
+            output = f.read()
+        
+        return output
+
 class Visualize(Resource):
     def post(self):
         # Parse the input data
@@ -47,8 +60,21 @@ class Visualize(Resource):
 
         return {'output': output}
 
+class Calculate(Resource):
+    def get(self):
+        parser = reqparse.RequestParser()
+        parser.add_argument('num1', type=int, help='Number 1')
+        parser.add_argument('num2', type=int, help='Number 2')
+        args = parser.parse_args()
+        result = args['num1'] + args['num2']
+        return "The result is " + result
+
+
+# test
 api.add_resource(HelloWorld, '/api/')
+api.add_resource(TempFileHandler, '/api/getfile/<string:filename>')
 api.add_resource(Visualize, '/api/visualize')
+api.add_resource(Calculate, '/api/calculate/')
 
 if __name__ == '__main__':
-    app.run(port=7000, debug=True)
+    app.run(host='0.0.0.0', port=8000)

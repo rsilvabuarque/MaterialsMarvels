@@ -47,7 +47,7 @@ export default function EditorPage() {
           }}
         />
       </div>
-      <LoadingButton>Visualise Structure</LoadingButton>
+      <LoadingButton>Visualize Structure</LoadingButton>
     </>
   );
 }
