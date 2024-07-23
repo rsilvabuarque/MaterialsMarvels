@@ -9,16 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@jowillianto/ngl-viewer": "github:jowillianto/ngl-viewer#stable",
     "bootstrap": "^5.3.3",
-    "ketcher-core": "^2.20.0",
+    "canvas": "^2.11.2",
     "ketcher-react": "^2.20.0",
     "ketcher-standalone": "^2.20.0",
     "next": "^14.2.4",
-    "ngl": "^2.3.1",
     "react": "^18",
-    "react-bootstrap": "^2.10.2",
-    "react-dom": "^18"
+    "react-bootstrap": "^2.10.2"
   },
   "devDependencies": {
     "eslint": "^8",
