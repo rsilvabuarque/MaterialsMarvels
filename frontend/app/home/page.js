@@ -2432,11 +2432,13 @@ Total wall time: 0:07:12
 `; //sample data will be filled in later
 
   data.split('\n').forEach(line => {
-    if (line.includes("Step CPU TotEng KinEng PotEng E_vdwl E_coul E_long Temp Press Volume")) {
+    if (line.includes("Step          CPU")) {
+      // Start of table
       insideData = true;
       return;
     }
     if (insideData && line.includes("Loop time of")) {
+      // End of table
       insideData = false;
       return;
     }
