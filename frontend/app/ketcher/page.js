@@ -36,7 +36,7 @@ export default function EditorPage() {
           style={{ width: '100%', height: '100%' }}
           onInit={(ketcher) => {
             // If window defined, attach the ketcher instance to it
-            if (typeof window !== 'undefined'){
+            if (typeof window !== 'undefined') {
               window.ketcher = ketcher;
             } else {
               // Try again later

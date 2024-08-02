@@ -2082,11 +2082,11 @@ const data = {
 
 const options = {
     plugins: {
-        decimation: {
-            enabled: true,
-            algorithm: 'lttb',
-            samples: 50
-        },
+        // decimation: {
+        //     enabled: true,
+        //     algorithm: 'lttb',
+        //     samples: 50
+        // },
         title: {
             text: "Total Energy",
             display: true

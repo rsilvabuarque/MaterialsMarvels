@@ -28,7 +28,7 @@ class TempFileHandler(Resource):
         with open(f'temp/{filename}', 'r') as f:
             output = f.read()
         
-        return output
+        return {"content": output}
 
 class Visualize(Resource):
     def post(self):
