@@ -2,6 +2,7 @@
 
 import styles from './page.module.css';
 import EnergyPlot from './EnergyPlot';
+import Visualization from './Visualization';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -32,13 +33,14 @@ const HomePage = () => {
         <>
         <Container>
             <Row>
-                <Col style={{"borderColor": "navy", "border-style": "solid"}}><div dangerouslySetInnerHTML={{ __html: htmlContent }} /></Col>
+            {/* <div dangerouslySetInnerHTML={{ __html: htmlContent }} /> */}
+                <Col style={{"borderColor": "navy", "borderStyle": "solid"}}><Visualization markup={htmlContent}></Visualization></Col>
                 {/* <Col><iframe src="/api/getfile/visualization.html" frameborder="0"></iframe></Col> */}
-                <Col style={{"borderColor": "navy", "border-style": "solid"}}><EnergyPlot /></Col>
+                <Col style={{"borderColor": "navy", "borderStyle": "solid"}}><EnergyPlot /></Col>
             </Row>
             <Row>
-                <Col style={{"borderColor": "navy", "border-style": "solid"}}><div>Explanation text <br /> Explanation text</div></Col>
-                <Col style={{"borderColor": "navy", "border-style": "solid"}}><EnergyPlot /></Col>
+                <Col style={{"borderColor": "navy", "borderStyle": "solid"}}><div>Explanation text <br /> Explanation text</div></Col>
+                <Col style={{"borderColor": "navy", "borderStyle": "solid"}}><EnergyPlot /></Col>
             </Row>
             {/* <div className={styles.topPane}>test</div>
             <div className={styles.bottomPane}><EnergyPlot /></div> */}
