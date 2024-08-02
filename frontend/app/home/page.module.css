@@ -1,4 +1,4 @@
-.container {
+/* .container {
   display: grid;
   grid-template-areas: 
     'header header'
@@ -49,4 +49,17 @@
   border: none;
   border-radius: 5px;
   margin-bottom: 20px;
+} */
+
+.splitScreen {
+  display: 'flex';
+  flex-direction: 'row';
+}
+
+.topPane {
+  width: '50%';
+}
+
+.bottomPane {
+  width: '50%';
 }

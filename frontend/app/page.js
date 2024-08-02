@@ -7,12 +7,12 @@ export default function Home() {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(true);
 
-  fetch('/api/')
-      .then(res => res.json())
-      .then(data => {
-          setMessage(data.hello);
-          setLoading(false);
-      })
+//   fetch('/api/')
+//       .then(res => res.json())
+//       .then(data => {
+//           setMessage(data.hello);
+//           setLoading(false);
+//       })
 
     return (
         <div className={styles.container}>
