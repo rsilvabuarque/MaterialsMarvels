@@ -3,7 +3,7 @@
 import React from "react";
 import "chart.js/auto";
 import { Line } from "react-chartjs-2";
-import 'chartjs-plugin-downsample';
+// import 'chartjs-plugin-downsample';
 
 let steps = [];
 let totalEnergy = [];
@@ -2073,19 +2073,19 @@ const data = {
       backgroundColor: "rgb(255, 99, 132)",
       borderColor: "rgb(255, 99, 132)",
       data: totalEnergy,
-      parsing: false,
-      lineTension: 0.4,
-      stepped: true
+      // parsing: false,
+      // lineTension: 0.4,
+      // stepped: true
     }
   ]
 };
 
 const options = {
   plugins: {
-    downsample: {
-      enabled: true,
-      threshold: 100,
-    },
+    // downsample: {
+    //   enabled: true,
+    //   threshold: 100,
+    // },
     title: {
       text: "Total Energy",
       display: true
