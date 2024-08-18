@@ -1,7 +1,11 @@
 from flask import Flask
 from flask_restful import Resource, Api, reqparse
+import subprocess
 import os
+import requests
 
+p = None # Jupyter notebook server process
+TOKEN = "f9a3bd4e9f2c3be01cd629154cfb224c2703181e050254b5" # Arbitrary token chosen for authentication
 app = Flask(__name__)
 api = Api(app)
 
@@ -13,6 +17,16 @@ def after_request(response):
     response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
     return response
 
+# Run jupyter notebook server
+@app.before_request
+def run_jupyter():
+    global p
+    # Ensure this only runs before the first request
+    app.before_request_funcs[None].remove(run_jupyter)
+
+    # Starts running the Jupyter notebook server
+    p = subprocess.Popen(["python3", "-m", "jupyter", "notebook", "--port=8888", f"--IdentityProvider.token={TOKEN}", "--no-browser"])
+
 class HelloWorld(Resource):
     def get(self):
         return {'hello': 'world'}
@@ -23,8 +37,9 @@ class TempFileHandler(Resource):
         # parser.add_argument('filename', type=str, help='The file name that you wish to retrieve from the temp directory')
         # args = parser.parse_args()
 
-        # TODO - Add error handling for file not found
-        # TODO - Prevent directory traversal attacks by changing how this is done
+        if "/" in filename or not os.path.exists(f'temp/{filename}'):
+            return {"error": "Invalid filename"}
+
         with open(f'temp/{filename}', 'r') as f:
             output = f.read()
         
@@ -50,15 +65,29 @@ class Visualize(Resource):
             f.write(args['molfile'])
 
         # Run the scripts to generate output files
+        # Need to create the topology{}.html, trajectory{}.html, visual{}.html, logfile{}.html
+        # For now, executes a Jupyter notebook to visualize the same mol file.
+        
+        # Duplicate the visualizer notebook to a new file
+        with open('visuals_template.ipynb', 'r') as f:
+            notebook = f.read()
+
+        notebook.replace(-19, i) # Set the visual_id in the notebook
+
+        with open(f'temp/notebook{i}.ipynb', 'w') as f:
+            f.write(notebook)
+
+        # Execute the notebook
+
 
         # Read output files and return the data
-        with open(f'temp/molfile{i}.mol', 'r') as f:
-            output = f.read()
+        # with open(f'temp/molfile{i}.mol', 'r') as f:
+        #     output = f.read()
 
         # Delete all the temp files created in the process
-        os.remove(f'temp/molfile{i}.mol')
+        # os.remove(f'temp/molfile{i}.mol')
 
-        return {'output': output}
+        return {'visualId': i}
 
 class Calculate(Resource):
     def get(self):
@@ -77,4 +106,9 @@ api.add_resource(Visualize, '/api/visualize')
 api.add_resource(Calculate, '/api/calculate/')
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8000)
+    try:
+        app.run(host='0.0.0.0', port=8000)
+    except KeyboardInterrupt:
+        if p:
+            p.kill()
+        requests.post(f"http://localhost:8888/api/shutdown?token={TOKEN}")

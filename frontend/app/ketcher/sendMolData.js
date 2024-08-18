@@ -12,7 +12,7 @@ function sendMolData() {
     }).then((data) => {
       // Received the data from the Flask API
       window.alert("Received the data from the Flask API");
-      console.log(data.output);
+      window.location.href = '/visualization?visualId=' + data.visualId;
     })
   });
   return new Promise((resolve) => setTimeout(resolve, 1000));

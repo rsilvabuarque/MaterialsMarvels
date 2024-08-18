@@ -2,14 +2,14 @@
 
 import styles from './page.module.css';
 import EnergyPlot from './EnergyPlot';
-import Visualization from './Visualization';
+import Visualization from '../components/Visualization';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { useEffect, useState } from 'react';
 
 const HomePage = () => {
-    const [htmlContent, setHtmlContent] = useState('');
+    const [htmlContent, setHtmlContent] = useState('Loading...');
 
     useEffect(() => {
         const fetchHtml = async () => {
