@@ -1,8 +1,11 @@
 'use client'
 
 import React from "react";
-import "chart.js/auto";
+import Chart from 'chart.js/auto';
 import { Line } from "react-chartjs-2";
+import regression from 'regression';
+import regressionPlugin from 'chartjs-plugin-regression';
+import annotationPlugin from 'chartjs-plugin-annotation';
 // import 'chartjs-plugin-downsample';
 
 let steps = [];
@@ -2065,6 +2068,32 @@ log.split('\n').forEach(line => {
   }
 });
 
+const coords = steps.map((el, index)=> [el, totalEnergy[index]]);
+
+const clean_data = coords
+    .filter(({ x, y }) => {
+      return (
+        typeof x === typeof y &&  // filter out one string & one number
+        !isNaN(x) &&              // filter out `NaN`
+        !isNaN(y) &&
+        Math.abs(x) !== Infinity && 
+        Math.abs(y) !== Infinity
+      );
+    })
+    .map(({ x, y }) => {
+      return [x, y];             // we need a list of [[x1, y1], [x2, y2], ...]
+    });
+
+const my_regression = regression.linear(
+  clean_data
+);
+
+const useful_points = my_regression.points.map(([x, y]) => {
+  return y;    
+  // or {x, y}, depending on whether you just want y-coords for a 'linear' plot
+  // or x&y for a 'scatterplot'
+})
+
 const data = {
   labels: steps,
   datasets: [
@@ -2086,6 +2115,21 @@ const options = {
     //   enabled: true,
     //   threshold: 100,
     // },
+    regression: true,
+    regression: {
+      // Type of regression (linear, exponential, etc.)
+      type: 'polynomial', 
+      // Color of the regression line
+      line: {
+        color: '#0000ff',
+        width: 3,
+      },
+      calculation: { precision: 10, order: 4 },
+      // Display the equation of the regression line
+      addLine: true,
+      addEquation: true,
+      equationFormat: 'y = ax + b',
+    },
     title: {
       text: "Total Energy",
       display: true
@@ -2106,6 +2150,8 @@ const options = {
     }
   }
 };
+Chart.register(annotationPlugin);
+// Chart.register('chartjs-plugin-regression');
 
 const LineChart = () => {
   return (
