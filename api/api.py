@@ -72,7 +72,7 @@ class Visualize(Resource):
         with open('visuals_template.ipynb', 'r') as f:
             notebook = f.read()
 
-        notebook.replace(-19, i) # Set the visual_id in the notebook
+        notebook.replace("-19", str(i)) # Set the visual_id in the notebook
 
         with open(f'temp/notebook{i}.ipynb', 'w') as f:
             f.write(notebook)
