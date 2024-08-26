@@ -6,6 +6,7 @@ import dynamic from 'next/dynamic';
 import { useEffect, useState } from 'react';
 import { StandaloneStructServiceProvider } from 'ketcher-standalone';
 import LoadingButton from './LoadingBtn';
+import Navigation from '../components/Navigation';
 
 
 export default function EditorPage() {
@@ -29,6 +30,7 @@ export default function EditorPage() {
 
   return (
     <>
+      <Navigation />
       <div style={{ position: 'relative', height: '80vh', overflow: 'hidden' }}>
         <Editor
           staticResourcesUrl={process.env.PUBLIC_URL}

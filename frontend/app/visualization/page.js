@@ -4,6 +4,7 @@ import styles from './page.module.css';
 import EnergyPlot from './EnergyPlot';
 import Visualization from '../components/Visualization';
 import Container from 'react-bootstrap/Container';
+import Navigation from '../components/Navigation';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { useEffect, useState } from 'react';
@@ -36,6 +37,7 @@ export default function Page() {
 
     return (
         <>
+            <Navigation />
             <Container className={styles.pageContainer}>
                 <Row>
                     <Col className={styles.visualizationCol}>
