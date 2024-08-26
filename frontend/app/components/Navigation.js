@@ -10,7 +10,7 @@ function Navigation() {
           <Navbar.Brand href="/">Materials Marvels</Navbar.Brand>
           <Nav className="me-auto">
             <Nav.Link href="/ketcher">Ionic Bonding</Nav.Link>
-            <Nav.Link href="/visualization">Visualization</Nav.Link>
+            <Nav.Link href="/visualization?visualId=13">Visualization</Nav.Link>
             <Nav.Link href="/example">Example 1</Nav.Link>
           </Nav>
         </Container>
