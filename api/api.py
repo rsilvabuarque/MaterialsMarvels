@@ -108,7 +108,7 @@ api.add_resource(Calculate, '/api/calculate/')
 if __name__ == '__main__':
     try:
         app.run(host='0.0.0.0', port=8000)
-    except KeyboardInterrupt:
+    finally:
         if p:
             p.kill()
         requests.post(f"http://localhost:8888/api/shutdown?token={TOKEN}")
