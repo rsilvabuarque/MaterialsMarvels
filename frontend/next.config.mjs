@@ -12,6 +12,8 @@ const nextConfig = {
           },
         ]
       },
+      // To ignore error useSearchParams() should be wrapped in a suspense boundary at page "/visualization"
+      experimental: { missingSuspenseWithCSRBailout: false, },
       // For Docker
       output: "standalone",
 };

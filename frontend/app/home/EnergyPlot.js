@@ -4,8 +4,8 @@ import React from "react";
 import Chart from 'chart.js/auto';
 import { Line } from "react-chartjs-2";
 import regression from 'regression';
-import regressionPlugin from 'chartjs-plugin-regression';
-import annotationPlugin from 'chartjs-plugin-annotation';
+// import regressionPlugin from 'chartjs-plugin-regression';
+// import annotationPlugin from 'chartjs-plugin-annotation';
 // import 'chartjs-plugin-downsample';
 
 let steps = [];
@@ -2144,7 +2144,7 @@ const options = {
         }
     }
 };
-Chart.register(annotationPlugin);
+// Chart.register(annotationPlugin);
 // Chart.register('chartjs-plugin-regression');
 
 const LineChart = () => {
