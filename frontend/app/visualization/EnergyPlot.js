@@ -1,8 +1,6 @@
 'use client'
 
-import React from "react";
-import { useEffect, useState } from 'react';
-import Chart from 'chart.js/auto';
+import React, { useEffect, useState } from 'react';
 import { Line } from "react-chartjs-2";
 import regression from 'regression';
 
@@ -69,7 +67,7 @@ export default function EnergyPlot({ visualId } ) {
         };
     
         fetchData();
-      }, []);
+      }, [visualId]);
     
     log.split('\n').forEach(line => {
         if (line.includes("Step          CPU")) {
@@ -89,31 +87,10 @@ export default function EnergyPlot({ visualId } ) {
         }
     });
 
-    const coords = steps.map((el, index)=> [el, totalEnergy[index]]);
+    const coords = steps.map((el, index) => [el, totalEnergy[index]]);
 
-    const clean_data = coords
-        .filter(({ x, y }) => {
-        return (
-            typeof x === typeof y &&  // filter out one string & one number
-            !isNaN(x) &&              // filter out `NaN`
-            !isNaN(y) &&
-            Math.abs(x) !== Infinity && 
-            Math.abs(y) !== Infinity
-        );
-        })
-        .map(({ x, y }) => {
-        return [x, y];             // we need a list of [[x1, y1], [x2, y2], ...]
-        });
-
-    const my_regression = regression.linear(
-    clean_data
-    );
-
-    const useful_points = my_regression.points.map(([x, y]) => {
-    return y;    
-    // or {x, y}, depending on whether you just want y-coords for a 'linear' plot
-    // or x&y for a 'scatterplot'
-    })
+    const polynomialRegression = regression.polynomial(coords, { order: 4 });
+    const polynomialFitData = polynomialRegression.points.map(([x, y]) => ({ x, y }));
 
     const data = {
         labels: steps,
@@ -124,9 +101,20 @@ export default function EnergyPlot({ visualId } ) {
                 borderColor: "rgba(54, 162, 235, 1)",
                 data: totalEnergy,
                 tension: 0.4,
+            },
+            {
+                label: "Polynomial Fit",
+                backgroundColor: "rgba(255, 99, 132, 0.5)",
+                borderColor: "rgba(255, 99, 132, 1)",
+                data: polynomialFitData.map(point => point.y), // Extract y values for the fit line
+                borderDash: [5, 5], // Dashed line for distinction
+                fill: false,
+                pointRadius: 0, // No points, just the line
+                tension: 0.4,
             }
         ]
     };
+
     return (
         <>
             <Line data={data} options={options} />
