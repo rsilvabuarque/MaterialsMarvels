@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useEffect, useState } from 'react';
+import Chart from 'chart.js/auto';
 import { Line } from "react-chartjs-2";
 import regression from 'regression';
 
@@ -89,7 +90,7 @@ export default function EnergyPlot({ visualId } ) {
 
     const coords = steps.map((el, index) => [el, totalEnergy[index]]);
 
-    const polynomialRegression = regression.polynomial(coords, { order: 4 });
+    const polynomialRegression = regression.polynomial(coords, { order: 4, precision: 6 });
     const polynomialFitData = polynomialRegression.points.map(([x, y]) => ({ x, y }));
 
     const data = {
@@ -101,6 +102,7 @@ export default function EnergyPlot({ visualId } ) {
                 borderColor: "rgba(54, 162, 235, 1)",
                 data: totalEnergy,
                 tension: 0.4,
+                order: 1
             },
             {
                 label: "Polynomial Fit",
@@ -111,6 +113,7 @@ export default function EnergyPlot({ visualId } ) {
                 fill: false,
                 pointRadius: 0, // No points, just the line
                 tension: 0.4,
+                order: 0
             }
         ]
     };
