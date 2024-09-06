@@ -3,6 +3,7 @@
 import styles from './page.module.css';
 import EnergyPlot from './EnergyPlot';
 import Visualization from '../components/Visualization';
+import VideoVisual from '../components/VideoVisual';
 import Container from 'react-bootstrap/Container';
 import Navigation from '../components/Navigation';
 import Row from 'react-bootstrap/Row';
@@ -41,7 +42,8 @@ export default function Page() {
             <Container className={styles.pageContainer}>
                 <Row>
                     <Col className={styles.visualizationCol}>
-                        <Visualization markup={htmlContent} />
+                        {/* <Visualization markup={htmlContent} /> */}
+                        <VideoVisual filename={'/sample-video.mp4'} />
                     </Col>
                     <Col className={styles.plotCol}>
                         <EnergyPlot visualId={visualId} />
