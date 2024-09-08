@@ -48,8 +48,10 @@ const options = {
 // Chart.register(annotationPlugin);
 // Chart.register('chartjs-plugin-regression');
 
-export default function EnergyPlot({ visualId } ) {
+export default function EnergyPlot({ visualId }) {
     const [log, setLog] = useState('');
+    const [sliderValue, setSliderValue] = useState(0);  
+    const [maxSteps, setMaxSteps] = useState(100);      
 
     let steps = [];
     let totalEnergy = [];
@@ -57,19 +59,19 @@ export default function EnergyPlot({ visualId } ) {
 
     useEffect(() => {
         const fetchData = async () => {
-          try {
-            const response = await fetch('/api/getfile/logfile'+ visualId +'.log');
-            const data = await response.json();
-            const content = data.content;
-            setLog(content);
-          } catch (error) {
-            console.error('Error fetching data:', error);
-          }
+            try {
+                const response = await fetch('/api/getfile/logfile' + visualId + '.log');
+                const data = await response.json();
+                const content = data.content;
+                setLog(content);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
         };
-    
+
         fetchData();
-      }, [visualId]);
-    
+    }, [visualId]);
+
     log.split('\n').forEach(line => {
         if (line.includes("Step          CPU")) {
             insideData = true;
@@ -88,19 +90,25 @@ export default function EnergyPlot({ visualId } ) {
         }
     });
 
-    const coords = steps.map((el, index) => [el, totalEnergy[index]]);
+    useEffect(() => {
+        setMaxSteps(steps.length);
+    }, [steps]);
 
+    const visibleEnergy = totalEnergy.slice(0, sliderValue);
+    const visibleSteps = steps.slice(0, sliderValue);
+
+    const coords = visibleSteps.map((el, index) => [el, visibleEnergy[index]]);
     const polynomialRegression = regression.polynomial(coords, { order: 4, precision: 6 });
     const polynomialFitData = polynomialRegression.points.map(([x, y]) => ({ x, y }));
 
     const data = {
-        labels: steps,
+        labels: visibleSteps,
         datasets: [
             {
                 label: "Step vs Total Energy",
                 backgroundColor: "rgba(54, 162, 235, 0.5)",
                 borderColor: "rgba(54, 162, 235, 1)",
-                data: totalEnergy,
+                data: visibleEnergy,
                 tension: 0.4,
                 order: 1
             },
@@ -119,8 +127,17 @@ export default function EnergyPlot({ visualId } ) {
     };
 
     return (
-        <>
+        <div>
+            <input
+                type="range"
+                min="0"
+                max={maxSteps}
+                value={sliderValue}
+                onChange={(e) => setSliderValue(parseInt(e.target.value))}
+                style={{ width: '100%' }}
+            />
+            <p>Current Step: {sliderValue}</p>
             <Line data={data} options={options} />
-        </>
+        </div>
     );
 };
