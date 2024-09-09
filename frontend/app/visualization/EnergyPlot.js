@@ -42,16 +42,17 @@ const options = {
                 }
             }
         }
-    }
+    },
+    responsive: true,
+    // maintainAspectRatio: false,
 };
 
 // Chart.register(annotationPlugin);
 // Chart.register('chartjs-plugin-regression');
 
-export default function EnergyPlot({ visualId }) {
+export default function EnergyPlot({ visualId, sliderValue }) { // Accept sliderValue as a prop
     const [log, setLog] = useState('');
-    const [sliderValue, setSliderValue] = useState(0);  
-    const [maxSteps, setMaxSteps] = useState(100);      
+    const [maxSteps, setMaxSteps] = useState(100);
 
     let steps = [];
     let totalEnergy = [];
@@ -94,8 +95,8 @@ export default function EnergyPlot({ visualId }) {
         setMaxSteps(steps.length);
     }, [steps]);
 
-    const visibleEnergy = totalEnergy.slice(0, sliderValue);
-    const visibleSteps = steps.slice(0, sliderValue);
+    const visibleEnergy = totalEnergy.slice(0, sliderValue*maxSteps/100);
+    const visibleSteps = steps.slice(0, sliderValue*maxSteps/100);
 
     const coords = visibleSteps.map((el, index) => [el, visibleEnergy[index]]);
     const polynomialRegression = regression.polynomial(coords, { order: 4, precision: 6 });
@@ -116,10 +117,10 @@ export default function EnergyPlot({ visualId }) {
                 label: "Polynomial Fit",
                 backgroundColor: "rgba(255, 99, 132, 0.5)",
                 borderColor: "rgba(255, 99, 132, 1)",
-                data: polynomialFitData.map(point => point.y), // Extract y values for the fit line
-                borderDash: [5, 5], // Dashed line for distinction
+                data: polynomialFitData.map(point => point.y),
+                borderDash: [5, 5],
                 fill: false,
-                pointRadius: 0, // No points, just the line
+                pointRadius: 0,
                 tension: 0.4,
                 order: 0
             }
@@ -127,17 +128,9 @@ export default function EnergyPlot({ visualId }) {
     };
 
     return (
-        <div>
-            <input
-                type="range"
-                min="0"
-                max={maxSteps}
-                value={sliderValue}
-                onChange={(e) => setSliderValue(parseInt(e.target.value))}
-                style={{ width: '100%' }}
-            />
-            <p>Current Step: {sliderValue}</p>
+        <div style={{ height: '100%', width: '100%' }}>
             <Line data={data} options={options} />
         </div>
     );
-};
+}
+

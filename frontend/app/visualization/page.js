@@ -13,15 +13,19 @@ import { useSearchParams } from 'next/navigation'
 
 export default function Page() {
     const [htmlContent, setHtmlContent] = useState('Loading...');
+    const [sliderValue, setSliderValue] = useState(0);
 
-    const searchParams = useSearchParams()
- 
-    const visualId = searchParams.get('visualId')
+    const searchParams = useSearchParams();
+    const visualId = searchParams.get('visualId');
+
+    const handleSliderChange = (value) => {
+        setSliderValue(value); // Update sliderValue when it changes in VideoVisual
+    };
 
     useEffect(() => {
         const fetchHtml = async () => {
             try {
-                const response = await fetch('/api/getfile/visual'+ visualId +'.html');
+                const response = await fetch('/api/getfile/visual' + visualId + '.html');
                 if (response.ok) {
                     const resp = await response.json();
                     setHtmlContent(resp.content);
@@ -34,7 +38,7 @@ export default function Page() {
         };
 
         fetchHtml();
-    }, []);
+    }, [visualId]);
 
     return (
         <>
@@ -42,11 +46,10 @@ export default function Page() {
             <Container className={styles.pageContainer}>
                 <Row>
                     <Col className={styles.visualizationCol}>
-                        {/* <Visualization markup={htmlContent} /> */}
-                        <VideoVisual filename={'/sample-video.mp4'} />
+                        <VideoVisual filename={'/sample-video.mp4'} onProgressChange={handleSliderChange} />
                     </Col>
                     <Col className={styles.plotCol}>
-                        <EnergyPlot visualId={visualId} />
+                        <EnergyPlot visualId={visualId} sliderValue={sliderValue} />
                     </Col>
                 </Row>
                 <Row>
@@ -54,10 +57,10 @@ export default function Page() {
                         <div className={styles.explanationText}>Explanation text <br /> Explanation text</div>
                     </Col>
                     <Col className={styles.plotCol}>
-                        <EnergyPlot visualId={visualId} />
+                        <EnergyPlot visualId={visualId} sliderValue={sliderValue} />
                     </Col>
                 </Row>
             </Container>
         </>
-    )
+    );
 }
