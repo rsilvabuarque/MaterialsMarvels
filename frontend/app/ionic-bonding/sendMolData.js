@@ -10,8 +10,7 @@ function sendMolData() {
     }).then((response) => {
       return response.json();
     }).then((data) => {
-      // Received the data from the Flask API
-      window.alert("Received the data from the Flask API");
+      // Simulation has been completed - redirect to the visualization page
       window.location.href = '/visualization?visualId=' + data.visualId;
     })
   });

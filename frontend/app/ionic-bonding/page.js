@@ -27,7 +27,7 @@ export default function EditorPage() {
     <>
       <Navigation />
       <StructureEditor />
-      <LoadingButton>Visualize Structure</LoadingButton>
+      <LoadingButton>Visualize Self-Assembly</LoadingButton>
     </>
   );
 }
