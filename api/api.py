@@ -99,10 +99,10 @@ class Visualize(Resource):
         create_lammps_input_command = ['/root/ATLAS-toolkit/scripts/createLammpsInput.pl', '-b', 'input.bgf', '-f', 'UFF']
         subprocess.run(create_lammps_input_command, cwd=visual_dir, check=True)
 
-        with open('in.lammps', 'r') as f:
+        with open(os.path.join(visual_dir, 'in.lammps'), 'r') as f:
             current_lines = f.readlines()
 
-        with open('../../in.lammps', 'r') as f:
+        with open('in.lammps', 'r') as f:
             template_lines = f.readlines()
 
         # Find the index of 'timestep 1' in both files
@@ -115,7 +115,7 @@ class Visualize(Resource):
         merged_content = current_lines[:current_split_idx + 1] + template_lines[outer_split_idx + 1:]
 
         # Overwrite the current in.lammps with the merged content
-        with open('in.lammps', 'w') as f:
+        with open(os.path.join(visual_dir, 'in.lammps'), 'w') as f:
             f.writelines(merged_content)
     
         # Step 3: Remove the files 'in.lammps_singlepoint' and 'lammps.lammps.slurm'
@@ -138,7 +138,8 @@ class Visualize(Resource):
         #                 master_file.write(f.read())
 
         # Above lines removed because it's now called lammps.visualize.lammpstrj
-        os.rename('lammps.visualize.lammpstrj', 'master.lammpstrj')
+        
+        os.rename(os.path.join(visual_dir, 'lammps.visualize.lammpstrj'), os.path.join(visual_dir, 'master.lammpstrj'))
 
         # Create the visualization
 
