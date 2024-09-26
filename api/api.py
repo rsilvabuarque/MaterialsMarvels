@@ -92,7 +92,7 @@ class Visualize(Resource):
         # Perform the simulation
 
         # Step 1: Run Open Babel to convert .mol to .bgf format
-        obabel_command = ['obabel', '-imol', 'input.mol', '-obgf', '-O', 'input.bgf']
+        obabel_command = ['/root/anaconda3/bin/obabel', '-imol', 'input.mol', '-obgf', '-O', 'input.bgf']
         subprocess.run(obabel_command, cwd=visual_dir, check=True)
 
         # Step 2: Run the createLammpsInput.pl script with the .bgf file and merge generated in.lammps with template in.lammps
@@ -126,7 +126,7 @@ class Visualize(Resource):
                 os.remove(file_path)
 
         # Step 4: Run LAMMPS with the given temperature
-        lammps_command = ['lmp', '-in', 'in.lammps', '-var', 'rtemp', str(args['temperature'])]
+        lammps_command = ['/root/lammps/build/lmp', '-in', 'in.lammps', '-var', 'rtemp', str(args['temperature'])]
         subprocess.run(lammps_command, cwd=visual_dir, check=True)
 
         # Step 5: Concatenate lammps.min.lammpstrj and lammps.heat.lammpstrj into master.lammpstrj
@@ -136,18 +136,18 @@ class Visualize(Resource):
         #         if os.path.exists(file_path):
         #             with open(file_path, 'rb') as f:
         #                 master_file.write(f.read())
-        
+
         # Above lines removed because it's now called lammps.visualize.lammpstrj
         os.rename('lammps.visualize.lammpstrj', 'master.lammpstrj')
 
         # Create the visualization
 
         # Step 1: Run VMD to generate individual frame files (.tga)
-        vmd_command = ['vmd', '-dispdev', 'text', '-e', '../../visualize.vmd']
+        vmd_command = ['/usr/local/bin/vmd', '-dispdev', 'text', '-e', '../../visualize.vmd']
         subprocess.run(vmd_command, cwd=visual_dir, check=True)
 
         # Step 2: Combine .tga frames into a video using FFmpeg
-        ffmpeg_command = ['ffmpeg', '-framerate', '24', '-i', 'frame_%d.tga', '-c:v', 'libx264', '-pix_fmt', 'yuv420p', 'visualization.mp4']
+        ffmpeg_command = ['/usr/bin/ffmpeg', '-framerate', '24', '-i', 'frame_%d.tga', '-c:v', 'libx264', '-pix_fmt', 'yuv420p', 'visualization.mp4']
         subprocess.run(ffmpeg_command, cwd=visual_dir, check=True)
 
         # Step 3: Remove all .tga files
