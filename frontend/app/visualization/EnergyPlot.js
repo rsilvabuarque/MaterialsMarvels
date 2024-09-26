@@ -61,9 +61,9 @@ export default function EnergyPlot({ visualId, sliderValue }) { // Accept slider
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('/api/getfile/logfile' + visualId + '.log');
+                const response = await fetch('/api/getfiles/' + visualId);
                 const data = await response.json();
-                const content = data.content;
+                const content = data.log;
                 setLog(content);
             } catch (error) {
                 console.error('Error fetching data:', error);
