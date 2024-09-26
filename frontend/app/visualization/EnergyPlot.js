@@ -74,7 +74,7 @@ export default function EnergyPlot({ visualId, sliderValue }) { // Accept slider
     }, [visualId]);
 
     log.split('\n').forEach(line => {
-        if (line.includes("Step          CPU")) {
+        if (line.includes("Step          Time")) {
             insideData = true;
             return;
         }
