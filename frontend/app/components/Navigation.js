@@ -7,7 +7,16 @@ function Navigation() {
     <>
       <Navbar bg="primary" data-bs-theme="dark">
         <Container>
-          <Navbar.Brand href="/">Materials Marvels</Navbar.Brand>
+          <Navbar.Brand href="/">
+            <img
+                alt=""
+                src="/Logo_Transparent.png"
+                width="30"
+                height="30"
+                className="d-inline-block align-top"
+              />{' '}
+              Materials Marvels
+          </Navbar.Brand>
           <Nav className="me-auto">
             <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href="/ionic-bonding">Ionic Bonding</Nav.Link>
