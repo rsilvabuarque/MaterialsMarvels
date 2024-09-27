@@ -10,7 +10,7 @@ function Navigation() {
           <Navbar.Brand href="/">
             <img
                 alt=""
-                src="/Logo_Transparent.png"
+                src="/static/Logo_Transparent.png"
                 width="30"
                 height="30"
                 className="d-inline-block align-top"
