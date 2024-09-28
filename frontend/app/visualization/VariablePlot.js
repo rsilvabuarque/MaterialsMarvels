@@ -5,10 +5,10 @@ import Chart from 'chart.js/auto';
 import { Line } from "react-chartjs-2";
 import regression from 'regression';
 
-const options = {
+const options = (variableName) => ({
     plugins: {
         title: {
-            text: "Total Energy",
+            text: `${variableName} vs Step`,
             display: true,
             font: {
                 size: 20,
@@ -36,7 +36,7 @@ const options = {
         y: {
             title: {
                 display: true,
-                text: 'Total Energy',
+                text: `${variableName}`,
                 font: {
                     size: 14,
                 }
@@ -46,17 +46,14 @@ const options = {
     responsive: true,
     animation: false,
     // maintainAspectRatio: false,
-};
+});
 
-// Chart.register(annotationPlugin);
-// Chart.register('chartjs-plugin-regression');
-
-export default function EnergyPlot({ visualId, sliderValue }) { // Accept sliderValue as a prop
+export default function VariablePlot({ visualId, sliderValue, variableIndex, variableName }) {
     const [log, setLog] = useState('');
     const [maxSteps, setMaxSteps] = useState(100);
 
     let steps = [];
-    let totalEnergy = [];
+    let variableData = [];
     let insideData = false;
 
     useEffect(() => {
@@ -75,7 +72,7 @@ export default function EnergyPlot({ visualId, sliderValue }) { // Accept slider
     }, [visualId]);
 
     log.split('\n').forEach(line => {
-        if (line.includes("Step          Time")) {
+        if (line.includes("Step")) {
             insideData = true;
             return;
         }
@@ -86,9 +83,9 @@ export default function EnergyPlot({ visualId, sliderValue }) { // Accept slider
         if (insideData) {
             let columns = line.trim().split(/\s+/);
             let step = parseInt(columns[0]);
-            let energy = parseFloat(columns[2]);
+            let variableValue = parseFloat(columns[variableIndex]);
             steps.push(step);
-            totalEnergy.push(energy);
+            variableData.push(variableValue);
         }
     });
 
@@ -96,10 +93,10 @@ export default function EnergyPlot({ visualId, sliderValue }) { // Accept slider
         setMaxSteps(steps.length);
     }, [steps]);
 
-    const visibleEnergy = totalEnergy.slice(0, sliderValue*maxSteps/100);
-    const visibleSteps = steps.slice(0, sliderValue*maxSteps/100);
+    const visibleVariableData = variableData.slice(0, sliderValue * maxSteps / 100);
+    const visibleSteps = steps.slice(0, sliderValue * maxSteps / 100);
 
-    const coords = visibleSteps.map((el, index) => [el, visibleEnergy[index]]);
+    const coords = visibleSteps.map((el, index) => [el, visibleVariableData[index]]);
     const polynomialRegression = regression.polynomial(coords, { order: 4, precision: 6 });
     const polynomialFitData = polynomialRegression.points.map(([x, y]) => ({ x, y }));
 
@@ -107,10 +104,10 @@ export default function EnergyPlot({ visualId, sliderValue }) { // Accept slider
         labels: visibleSteps,
         datasets: [
             {
-                label: "Step vs Total Energy",
+                label: `Step vs ${variableName}`,
                 backgroundColor: "rgba(54, 162, 235, 0.5)",
                 borderColor: "rgba(54, 162, 235, 1)",
-                data: visibleEnergy,
+                data: visibleVariableData,
                 tension: 0.4,
                 order: 1
             },
@@ -130,8 +127,7 @@ export default function EnergyPlot({ visualId, sliderValue }) { // Accept slider
 
     return (
         <div style={{ height: '100%', width: '100%' }}>
-            <Line data={data} options={options} />
+            <Line data={data} options={options(variableName)} />
         </div>
     );
 }
-
