@@ -1,7 +1,7 @@
 'use client'
 
 import styles from './page.module.css';
-import EnergyPlot from './EnergyPlot';
+import VariablePlot from './VariablePlot';
 import VideoVisual from '../components/VideoVisual';
 import Container from 'react-bootstrap/Container';
 import Navigation from '../components/Navigation';
@@ -30,7 +30,7 @@ export default function Page() {
                         <VideoVisual visualId={visualId} onProgressChange={handleSliderChange} />
                     </Col>
                     <Col className={styles.plotCol}>
-                        <EnergyPlot visualId={visualId} sliderValue={sliderValue} />
+                        <VariablePlot visualId={visualId} sliderValue={sliderValue} variableIndex={2} variableName="Total Energy" />
                     </Col>
                 </Row>
                 <Row>
@@ -38,7 +38,7 @@ export default function Page() {
                         <div className={styles.explanationText}>Explanation text <br /> Explanation text</div>
                     </Col>
                     <Col className={styles.plotCol}>
-                        <EnergyPlot visualId={visualId} sliderValue={sliderValue} />
+                        <VariablePlot visualId={visualId} sliderValue={sliderValue} variableIndex={3} variableName="Temperature" />
                     </Col>
                 </Row>
             </Container>
