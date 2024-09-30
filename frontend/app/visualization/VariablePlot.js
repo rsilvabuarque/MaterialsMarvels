@@ -8,7 +8,7 @@ import regression from 'regression';
 const options = (variableName) => ({
     plugins: {
         title: {
-            text: `${variableName} vs Step`,
+            text: `${variableName}`,
             display: true,
             font: {
                 size: 20,
