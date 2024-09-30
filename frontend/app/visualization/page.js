@@ -38,7 +38,7 @@ export default function Page() {
                         <div className={styles.explanationText}>Explanation text <br /> Explanation text</div>
                     </Col>
                     <Col className={styles.plotCol}>
-                        <VariablePlot visualId={visualId} sliderValue={sliderValue} variableIndex={3} variableName="Temperature" />
+                        <VariablePlot visualId={visualId} sliderValue={sliderValue} variableIndex={18} variableName="Temperature" />
                     </Col>
                 </Row>
             </Container>
