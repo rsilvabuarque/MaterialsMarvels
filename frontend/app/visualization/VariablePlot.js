@@ -8,7 +8,7 @@ import regression from 'regression';
 const options = (variableName) => ({
     plugins: {
         title: {
-            text: `${variableName} vs Step`,
+            text: `${variableName}`,
             display: true,
             font: {
                 size: 20,
@@ -57,8 +57,8 @@ export default function VariablePlot({ visualId, sliderValue, variableIndex, var
     let insideData = false;
     let currentPhase = 'minimization'; 
 
-    const minimizationColor = 'rgba(255, 99, 132, 1)';
-    const heatingColor = 'rgba(54, 162, 235, 1)';
+    const minimizationColor = 'rgba(54, 162, 235, 1)';
+    const heatingColor = 'rgba(255, 99, 132, 1)';
 
     useEffect(() => {
         const fetchData = async () => {
@@ -129,7 +129,7 @@ export default function VariablePlot({ visualId, sliderValue, variableIndex, var
             {
                 label: "Polynomial Fit",
                 data: polynomialFitData.map(point => point.y),
-                borderColor: "rgba(255, 99, 132, 1)",
+                borderColor: "rgba(64, 64, 64, 1)",
                 borderDash: [5, 5],
                 fill: false,
                 pointRadius: 0,
