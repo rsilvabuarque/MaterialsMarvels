@@ -8,7 +8,7 @@ import regression from 'regression';
 const options = (variableName) => ({
     plugins: {
         title: {
-            text: `${variableName}`,
+            text: `${variableName} vs Step`,
             display: true,
             font: {
                 size: 20,
@@ -45,7 +45,6 @@ const options = (variableName) => ({
     },
     responsive: true,
     animation: false,
-    // maintainAspectRatio: false,
 });
 
 export default function VariablePlot({ visualId, sliderValue, variableIndex, variableName }) {
@@ -54,7 +53,12 @@ export default function VariablePlot({ visualId, sliderValue, variableIndex, var
 
     let steps = [];
     let variableData = [];
+    let colors = [];  
     let insideData = false;
+    let currentPhase = 'minimization'; 
+
+    const minimizationColor = 'rgba(255, 99, 132, 1)';
+    const heatingColor = 'rgba(54, 162, 235, 1)';
 
     useEffect(() => {
         const fetchData = async () => {
@@ -72,6 +76,12 @@ export default function VariablePlot({ visualId, sliderValue, variableIndex, var
     }, [visualId]);
 
     log.split('\n').forEach(line => {
+        if (line.includes("500 steps CG Minimization")) {
+            currentPhase = 'minimization';
+        } else if (line.includes("NVT dynamics to heat system")) {
+            currentPhase = 'heating';
+        }
+
         if (line.includes("Step")) {
             insideData = true;
             return;
@@ -84,8 +94,12 @@ export default function VariablePlot({ visualId, sliderValue, variableIndex, var
             let columns = line.trim().split(/\s+/);
             let step = parseInt(columns[0]);
             let variableValue = parseFloat(columns[variableIndex]);
+
+            let color = currentPhase === 'minimization' ? minimizationColor : heatingColor;
+
             steps.push(step);
             variableData.push(variableValue);
+            colors.push(color);  
         }
     });
 
@@ -95,6 +109,7 @@ export default function VariablePlot({ visualId, sliderValue, variableIndex, var
 
     const visibleVariableData = variableData.slice(0, sliderValue * maxSteps / 100);
     const visibleSteps = steps.slice(0, sliderValue * maxSteps / 100);
+    const visibleColors = colors.slice(0, sliderValue * maxSteps / 100); 
 
     const coords = visibleSteps.map((el, index) => [el, visibleVariableData[index]]);
     const polynomialRegression = regression.polynomial(coords, { order: 4, precision: 6 });
@@ -105,17 +120,16 @@ export default function VariablePlot({ visualId, sliderValue, variableIndex, var
         datasets: [
             {
                 label: `Step vs ${variableName}`,
-                backgroundColor: "rgba(54, 162, 235, 0.5)",
-                borderColor: "rgba(54, 162, 235, 1)",
                 data: visibleVariableData,
+                pointBackgroundColor: visibleColors,  
+                borderColor: "rgba(0, 0, 0, 0.1)",
                 tension: 0.4,
-                order: 1
+                order: 1,
             },
             {
                 label: "Polynomial Fit",
-                backgroundColor: "rgba(255, 99, 132, 0.5)",
-                borderColor: "rgba(255, 99, 132, 1)",
                 data: polynomialFitData.map(point => point.y),
+                borderColor: "rgba(255, 99, 132, 1)",
                 borderDash: [5, 5],
                 fill: false,
                 pointRadius: 0,
