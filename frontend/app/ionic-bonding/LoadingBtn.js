@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
+import Spinner from 'react-bootstrap/Spinner';
 import sendMolData from './sendMolData';
 
 function LoadingButton() {
@@ -15,14 +16,26 @@ function LoadingButton() {
   }, [isLoading]);
 
   const handleClick = () => setLoading(true);
-
+  if (isLoading) {
+    return <Button variant="primary" disabled>
+    <Spinner
+      as="span"
+      animation="border"
+      size="sm"
+      role="status"
+      aria-hidden="true"
+    />
+    &nbsp;Running Simulations...
+  </Button>
+  }
+  
   return (
     <Button
       variant="primary"
       disabled={isLoading}
       onClick={!isLoading ? handleClick : null}
     >
-      {isLoading ? 'Loading…' : 'View Visualization'}
+      View Visualization
     </Button>
   );
 }
