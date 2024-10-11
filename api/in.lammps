@@ -50,7 +50,6 @@ print                =====================================
 print                .
                                           
 velocity             all create 0.0 12345678 dist uniform
-thermo               100
 fix                  4 all nvt temp 1.0 ${rtemp} 100.0
 run                  100000
 unfix                4
