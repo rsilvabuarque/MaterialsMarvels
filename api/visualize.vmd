@@ -2,7 +2,7 @@
 mol new input.bgf
 
 # Load the LAMMPSTRJ trajectory
-mol addfile master.lammpstrj type lammpstrj
+mol addfile master.lammpstrj type lammpstrj first 0 last -1 step 1 waitfor all
 
 # Check if the molecule and trajectory are loaded correctly
 set mol_id [molinfo top]
@@ -26,7 +26,7 @@ mol addrep top
 
 # Set up the display
 display resetview
-display resize 1920 1080
+display resize 600 400
 
 # Define variables for rotation
 set rotation_step [expr 360 / $num_frames]  ;# Rotate 360 degrees over the trajectory
