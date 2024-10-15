@@ -41,7 +41,7 @@ for {set i 0} {$i < $num_frames} {incr i} {
     incr rotation_angle $rotation_step
 
     # Render each frame to a TGA file
-    render snapshot frame_$i.tga
+    render TachyonInternal frame_$i.tga
 }
 
 exit
