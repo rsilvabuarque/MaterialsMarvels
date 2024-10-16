@@ -71,95 +71,99 @@ class VideoFileHandler(Resource):
 
 class Visualize(Resource):
     def post(self):
-        # Parse the input data
-        parser = reqparse.RequestParser()
-        parser.add_argument('molfile', type=str, help='The molfile input (v2000)')
-        parser.add_argument('temperature', type=int, help='The simulation temperature in Kelvin', default=298)
-        args = parser.parse_args()
+        try:
+            # Parse the input data
+            parser = reqparse.RequestParser()
+            parser.add_argument('molfile', type=str, help='The molfile input (v2000)')
+            parser.add_argument('temperature', type=int, help='The simulation temperature in Kelvin', default=298)
+            args = parser.parse_args()
 
-        # Generate a unique visualId using UUID
-        visual_id = str(uuid.uuid4())
+            # Generate a unique visualId using UUID
+            visual_id = str(uuid.uuid4())
 
-        # Create a directory with the visualId as the name
-        visual_dir = os.path.join('temp', visual_id)
-        os.makedirs(visual_dir, exist_ok=True)
+            # Create a directory with the visualId as the name
+            visual_dir = os.path.join('temp', visual_id)
+            os.makedirs(visual_dir, exist_ok=True)
 
-        # Save the molfile to a new file in the directory
-        molfile_path = os.path.join(visual_dir, 'input.mol')
-        with open(molfile_path, 'w') as f:
-            f.write(args['molfile'])
+            # Save the molfile to a new file in the directory
+            molfile_path = os.path.join(visual_dir, 'input.mol')
+            with open(molfile_path, 'w') as f:
+                f.write(args['molfile'])
 
-        # Perform the simulation
+            # Perform the simulation
 
-        # Step 1: Run Open Babel to convert .mol to .bgf format
-        obabel_command = ['/root/anaconda3/bin/obabel', '-imol', 'input.mol', '-obgf', '-O', 'input.bgf']
-        subprocess.run(obabel_command, cwd=visual_dir, check=True)
+            # Step 1: Run Open Babel to convert .mol to .bgf format
+            obabel_command = ['/root/anaconda3/bin/obabel', '-imol', 'input.mol', '-obgf', '-O', 'input.bgf']
+            subprocess.run(obabel_command, cwd=visual_dir, check=True)
 
-        # Step 2: Run the createLammpsInput.pl script with the .bgf file and merge generated in.lammps with template in.lammps
-        create_lammps_input_command = ['/root/ATLAS-toolkit/scripts/createLammpsInput.pl', '-b', 'input.bgf', '-f', 'UFF']
-        subprocess.run(create_lammps_input_command, cwd=visual_dir, check=True)
+            # Step 2: Run the createLammpsInput.pl script with the .bgf file and merge generated in.lammps with template in.lammps
+            create_lammps_input_command = ['/root/ATLAS-toolkit/scripts/createLammpsInput.pl', '-b', 'input.bgf', '-f', 'UFF']
+            subprocess.run(create_lammps_input_command, cwd=visual_dir, check=True)
 
-        with open(os.path.join(visual_dir, 'in.lammps'), 'r') as f:
-            current_lines = f.readlines()
+            with open(os.path.join(visual_dir, 'in.lammps'), 'r') as f:
+                current_lines = f.readlines()
 
-        with open('in.lammps', 'r') as f:
-            template_lines = f.readlines()
+            with open('in.lammps', 'r') as f:
+                template_lines = f.readlines()
 
-        # Find the index of 'timestep 1' in both files
-        timestep_line = 'timestep             1'
-        current_split_idx = next(i for i, line in enumerate(current_lines) if timestep_line in line)
-        outer_split_idx = next(i for i, line in enumerate(template_lines) if timestep_line in line)
+            # Find the index of 'timestep 1' in both files
+            timestep_line = 'timestep             1'
+            current_split_idx = next(i for i, line in enumerate(current_lines) if timestep_line in line)
+            outer_split_idx = next(i for i, line in enumerate(template_lines) if timestep_line in line)
 
-        # Combine everything before the 'timestep 1' line from the current file
-        # with everything after the 'timestep 1' line from the outer file
-        merged_content = current_lines[:current_split_idx + 1] + template_lines[outer_split_idx + 1:]
+            # Combine everything before the 'timestep 1' line from the current file
+            # with everything after the 'timestep 1' line from the outer file
+            merged_content = current_lines[:current_split_idx + 1] + template_lines[outer_split_idx + 1:]
 
-        # Overwrite the current in.lammps with the merged content
-        with open(os.path.join(visual_dir, 'in.lammps'), 'w') as f:
-            f.writelines(merged_content)
-    
-        # Step 3: Remove the files 'in.lammps_singlepoint' and 'lammps.lammps.slurm'
-        files_to_remove = ['in.lammps_singlepoint', 'lammps.lammps.slurm']
-        for filename in files_to_remove:
-            file_path = os.path.join(visual_dir, filename)
-            if os.path.exists(file_path):
-                os.remove(file_path)
-
-        # Step 4: Run LAMMPS with the given temperature
-        lammps_command = ['/root/lammps/build/lmp', '-in', 'in.lammps', '-var', 'rtemp', str(args['temperature'])]
-        subprocess.run(lammps_command, cwd=visual_dir, check=True)
-
-        # Step 5: Concatenate lammps.min.lammpstrj and lammps.heat.lammpstrj into master.lammpstrj
-        # with open(os.path.join(visual_dir, 'master.lammpstrj'), 'wb') as master_file:
-        #     for file_name in ['lammps.min.lammpstrj', 'lammps.heat.lammpstrj']:
-        #         file_path = os.path.join(visual_dir, file_name)
-        #         if os.path.exists(file_path):
-        #             with open(file_path, 'rb') as f:
-        #                 master_file.write(f.read())
-
-        # Above lines removed because it's now called lammps.visualize.lammpstrj
+            # Overwrite the current in.lammps with the merged content
+            with open(os.path.join(visual_dir, 'in.lammps'), 'w') as f:
+                f.writelines(merged_content)
         
-        os.rename(os.path.join(visual_dir, 'lammps.visualize.lammpstrj'), os.path.join(visual_dir, 'master.lammpstrj'))
+            # Step 3: Remove the files 'in.lammps_singlepoint' and 'lammps.lammps.slurm'
+            files_to_remove = ['in.lammps_singlepoint', 'lammps.lammps.slurm']
+            for filename in files_to_remove:
+                file_path = os.path.join(visual_dir, filename)
+                if os.path.exists(file_path):
+                    os.remove(file_path)
 
-        # Create the visualization
+            # Step 4: Run LAMMPS with the given temperature
+            lammps_command = ['/root/lammps/build/lmp', '-in', 'in.lammps', '-var', 'rtemp', str(args['temperature'])]
+            subprocess.run(lammps_command, cwd=visual_dir, check=True)
 
-        # Step 1: Run VMD to generate individual frame files (.tga)
-        vmd_command = ['/usr/local/bin/vmd', '-dispdev', 'text', '-e', '../../visualize.vmd']
-        subprocess.run(vmd_command, cwd=visual_dir, check=True)
+            # Step 5: Concatenate lammps.min.lammpstrj and lammps.heat.lammpstrj into master.lammpstrj
+            # with open(os.path.join(visual_dir, 'master.lammpstrj'), 'wb') as master_file:
+            #     for file_name in ['lammps.min.lammpstrj', 'lammps.heat.lammpstrj']:
+            #         file_path = os.path.join(visual_dir, file_name)
+            #         if os.path.exists(file_path):
+            #             with open(file_path, 'rb') as f:
+            #                 master_file.write(f.read())
 
-        # Step 2: Combine .tga frames into a video using FFmpeg
-        ffmpeg_command = ['/usr/bin/ffmpeg', '-framerate', '6', '-i', 'frame_%d.tga', '-c:v', 'libx264', '-pix_fmt', 'yuv420p', 'visualization.mp4']
-        subprocess.run(ffmpeg_command, cwd=visual_dir, check=True)
+            # Above lines removed because it's now called lammps.visualize.lammpstrj
+            
+            os.rename(os.path.join(visual_dir, 'lammps.visualize.lammpstrj'), os.path.join(visual_dir, 'master.lammpstrj'))
 
-        # Step 3: Remove all .tga files
-        for file in os.listdir(visual_dir):
-            if file.endswith('.tga'):
-                os.remove(os.path.join(visual_dir, file))
+            # Create the visualization
 
-        # Output files: visualization.mp4, input.bgf (topology), master.lammpstrj (trajectory), log.lammps (LAMMPS log)
+            # Step 1: Run VMD to generate individual frame files (.tga)
+            vmd_command = ['/usr/local/bin/vmd', '-dispdev', 'text', '-e', '../../visualize.vmd']
+            subprocess.run(vmd_command, cwd=visual_dir, check=True)
 
-        # Return the visualId to the client
-        return jsonify({'visualId': visual_id})
+            # Step 2: Combine .tga frames into a video using FFmpeg
+            ffmpeg_command = ['/usr/bin/ffmpeg', '-framerate', '6', '-i', 'frame_%d.tga', '-c:v', 'libx264', '-pix_fmt', 'yuv420p', 'visualization.mp4']
+            subprocess.run(ffmpeg_command, cwd=visual_dir, check=True)
+
+            # Step 3: Remove all .tga files
+            for file in os.listdir(visual_dir):
+                if file.endswith('.tga'):
+                    os.remove(os.path.join(visual_dir, file))
+
+            # Output files: visualization.mp4, input.bgf (topology), master.lammpstrj (trajectory), log.lammps (LAMMPS log)
+
+            # Return the visualId to the client
+            return jsonify({'visualId': visual_id})
+        except Exception as e:
+            app.logger.error(f"Error occurred: {str(e)}")
+            return jsonify({'error': 'Internal Server Error', 'message': str(e)}), 500
 
 
 api.add_resource(HelloWorld, '/api/')
