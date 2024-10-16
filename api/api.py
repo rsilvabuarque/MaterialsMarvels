@@ -1,3 +1,4 @@
+import threading
 from flask import Flask
 from flask_restful import Resource, Api, reqparse
 from flask import send_file, jsonify
@@ -90,8 +91,20 @@ class Visualize(Resource):
             with open(molfile_path, 'w') as f:
                 f.write(args['molfile'])
 
-            # Perform the simulation
+            # Run the visualization process in a background thread
+            thread = threading.Thread(target=self.run_simulation, args=(visual_dir, args['temperature'], visual_id))
+            thread.start()
 
+            # Return the visualId to the client immediately
+            return jsonify({'visualId': visual_id})
+        except Exception as e:
+            app.logger.error(f"Error occurred: {str(e)}")
+            return jsonify({'error': 'Internal Server Error', 'message': str(e)}), 500
+
+    def run_simulation(self, visual_dir, temperature, visual_id):
+        try:
+            visual_dir = os.path.join('temp', visual_id)
+            
             # Step 1: Run Open Babel to convert .mol to .bgf format
             obabel_command = ['/root/anaconda3/bin/obabel', '-imol', 'input.mol', '-obgf', '-O', 'input.bgf']
             subprocess.run(obabel_command, cwd=visual_dir, check=True)
@@ -118,7 +131,7 @@ class Visualize(Resource):
             # Overwrite the current in.lammps with the merged content
             with open(os.path.join(visual_dir, 'in.lammps'), 'w') as f:
                 f.writelines(merged_content)
-        
+
             # Step 3: Remove the files 'in.lammps_singlepoint' and 'lammps.lammps.slurm'
             files_to_remove = ['in.lammps_singlepoint', 'lammps.lammps.slurm']
             for filename in files_to_remove:
@@ -127,19 +140,10 @@ class Visualize(Resource):
                     os.remove(file_path)
 
             # Step 4: Run LAMMPS with the given temperature
-            lammps_command = ['/root/lammps/build/lmp', '-in', 'in.lammps', '-var', 'rtemp', str(args['temperature'])]
+            lammps_command = ['/root/lammps/build/lmp', '-in', 'in.lammps', '-var', 'rtemp', str(temperature)]
             subprocess.run(lammps_command, cwd=visual_dir, check=True)
 
-            # Step 5: Concatenate lammps.min.lammpstrj and lammps.heat.lammpstrj into master.lammpstrj
-            # with open(os.path.join(visual_dir, 'master.lammpstrj'), 'wb') as master_file:
-            #     for file_name in ['lammps.min.lammpstrj', 'lammps.heat.lammpstrj']:
-            #         file_path = os.path.join(visual_dir, file_name)
-            #         if os.path.exists(file_path):
-            #             with open(file_path, 'rb') as f:
-            #                 master_file.write(f.read())
-
-            # Above lines removed because it's now called lammps.visualize.lammpstrj
-            
+            # Step 5: Rename lammps.visualize.lammpstrj to master.lammpstrj
             os.rename(os.path.join(visual_dir, 'lammps.visualize.lammpstrj'), os.path.join(visual_dir, 'master.lammpstrj'))
 
             # Create the visualization
@@ -159,10 +163,33 @@ class Visualize(Resource):
 
             # Output files: visualization.mp4, input.bgf (topology), master.lammpstrj (trajectory), log.lammps (LAMMPS log)
 
-            # Return the visualId to the client
-            return jsonify({'visualId': visual_id})
+            # Mark the visualization as completed
+            with open(os.path.join(visual_dir, 'status.txt'), 'w') as status_file:
+                status_file.write('completed')
         except Exception as e:
-            app.logger.error(f"Error occurred: {str(e)}")
+            app.logger.error(f"Error occurred during background processing: {str(e)}")
+            with open(os.path.join(visual_dir, 'status.txt'), 'w') as status_file:
+                status_file.write('failed')
+
+class VisualizationStatus(Resource):
+    def get(self):
+        try:
+            parser = reqparse.RequestParser()
+            parser.add_argument('visualId', type=str, help='The visualId to check the status of', required=True)
+            args = parser.parse_args()
+
+            visual_id = args.get('visualId')
+            visual_dir = os.path.join('temp', visual_id)
+            status_file_path = os.path.join(visual_dir, 'status.txt')
+
+            if os.path.exists(status_file_path):
+                with open(status_file_path, 'r') as status_file:
+                    status = status_file.read().strip()
+                return jsonify({'status': status})
+            else:
+                return jsonify({'status': 'in_progress'})
+        except Exception as e:
+            app.logger.error(f"Error occurred while checking status: {str(e)}")
             return jsonify({'error': 'Internal Server Error', 'message': str(e)}), 500
 
 
@@ -170,6 +197,7 @@ api.add_resource(HelloWorld, '/api/')
 api.add_resource(VisualFileHandler, '/api/getfiles/<string:visualId>')
 api.add_resource(VideoFileHandler, '/api/getvideo/<string:visualId>')
 api.add_resource(Visualize, '/api/visualize')
+api.add_resource(VisualizationStatus, '/api/status')
 
 if __name__ == '__main__':
     port = 8000  # Default port
