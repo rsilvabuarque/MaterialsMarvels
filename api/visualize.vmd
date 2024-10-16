@@ -1,8 +1,8 @@
 # Load the BGF structure
-mol new input.bgf
+mol new input.bgf autobonds off
 
 # Load the LAMMPSTRJ trajectory
-mol addfile master.lammpstrj type lammpstrj first 0 last -1 step 1 waitfor all autobonds off
+mol addfile master.lammpstrj type lammpstrj first 0 last -1 step 1 waitfor all
 
 # Check if the molecule and trajectory are loaded correctly
 set mol_id [molinfo top]
