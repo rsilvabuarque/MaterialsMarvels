@@ -93,6 +93,7 @@ export default function VariablePlot({ visualId, sliderValue, variableIndex, var
         if (insideData) {
             let columns = line.trim().split(/\s+/);
             let step = parseInt(columns[0]);
+            if (step === 0) return;  // Skip this iteration if step is 0
             let variableValue = parseFloat(columns[variableIndex]);
 
             let color = currentPhase === 'minimization' ? minimizationColor : heatingColor;
