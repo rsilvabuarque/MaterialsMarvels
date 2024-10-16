@@ -9,7 +9,7 @@ async function sendMolData() {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ 'molfile': molfile }),
-  });
+  }, 600000);
 
   // Parse the JSON response
   const data = await response.json();
