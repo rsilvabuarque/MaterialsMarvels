@@ -172,14 +172,9 @@ class Visualize(Resource):
                 status_file.write('failed')
 
 class VisualizationStatus(Resource):
-    def get(self):
+    def get(self, visualId):
         try:
-            parser = reqparse.RequestParser()
-            parser.add_argument('visualId', type=str, help='The visualId to check the status of', required=True)
-            args = parser.parse_args()
-
-            visual_id = args.get('visualId')
-            visual_dir = os.path.join('temp', visual_id)
+            visual_dir = os.path.join('temp', visualId)
             status_file_path = os.path.join(visual_dir, 'status.txt')
 
             if os.path.exists(status_file_path):
@@ -197,7 +192,7 @@ api.add_resource(HelloWorld, '/api/')
 api.add_resource(VisualFileHandler, '/api/getfiles/<string:visualId>')
 api.add_resource(VideoFileHandler, '/api/getvideo/<string:visualId>')
 api.add_resource(Visualize, '/api/visualize')
-api.add_resource(VisualizationStatus, '/api/status')
+api.add_resource(VisualizationStatus, '/api/status/<string:visualId>')
 
 if __name__ == '__main__':
     port = 8000  # Default port
