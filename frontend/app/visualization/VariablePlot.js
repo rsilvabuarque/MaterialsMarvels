@@ -5,7 +5,7 @@ import Chart from 'chart.js/auto';
 import { Line } from "react-chartjs-2";
 import regression from 'regression';
 
-const options = (variableName) => ({
+const options = (variableName, variableUnit) => ({
     plugins: {
         title: {
             text: `${variableName}`,
@@ -36,7 +36,7 @@ const options = (variableName) => ({
         y: {
             title: {
                 display: true,
-                text: `${variableName}`,
+                text: `${variableName} (${variableUnit})`,
                 font: {
                     size: 14,
                 }
@@ -47,15 +47,15 @@ const options = (variableName) => ({
     animation: false,
 });
 
-export default function VariablePlot({ visualId, sliderValue, variableIndex, variableName }) {
+export default function VariablePlot({ visualId, sliderValue, variableIndex, variableName, variableUnit }) {
     const [log, setLog] = useState('');
     const [maxSteps, setMaxSteps] = useState(100);
 
     let steps = [];
     let variableData = [];
-    let colors = [];  
+    let colors = [];
     let insideData = false;
-    let currentPhase = 'minimization'; 
+    let currentPhase = 'minimization';
 
     const minimizationColor = 'rgba(54, 162, 235, 1)';
     const heatingColor = 'rgba(255, 99, 132, 1)';
@@ -100,7 +100,7 @@ export default function VariablePlot({ visualId, sliderValue, variableIndex, var
 
             steps.push(step);
             variableData.push(variableValue);
-            colors.push(color);  
+            colors.push(color);
         }
     });
 
@@ -110,7 +110,7 @@ export default function VariablePlot({ visualId, sliderValue, variableIndex, var
 
     const visibleVariableData = variableData.slice(0, sliderValue * maxSteps / 100);
     const visibleSteps = steps.slice(0, sliderValue * maxSteps / 100);
-    const visibleColors = colors.slice(0, sliderValue * maxSteps / 100); 
+    const visibleColors = colors.slice(0, sliderValue * maxSteps / 100);
 
     const coords = visibleSteps.map((el, index) => [el, visibleVariableData[index]]);
     const polynomialRegression = regression.polynomial(coords, { order: 4, precision: 6 });
@@ -122,7 +122,7 @@ export default function VariablePlot({ visualId, sliderValue, variableIndex, var
             {
                 label: `Step vs ${variableName}`,
                 data: visibleVariableData,
-                pointBackgroundColor: visibleColors,  
+                pointBackgroundColor: visibleColors,
                 borderColor: "rgba(0, 0, 0, 0.1)",
                 tension: 0.4,
                 order: 1,
@@ -142,7 +142,7 @@ export default function VariablePlot({ visualId, sliderValue, variableIndex, var
 
     return (
         <div style={{ height: '100%', width: '100%' }}>
-            <Line data={data} options={options(variableName)} />
+            <Line data={data} options={options(variableName, variableUnit)} />
         </div>
     );
 }

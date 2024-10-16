@@ -35,82 +35,82 @@ export default function Page() {
                 </Row>
                 <Row>
                     <Col className={styles.plotCol}>
-                        <VariablePlot visualId={visualId} sliderValue={sliderValue} variableIndex={2} variableName="Total Energy" />
+                        <VariablePlot visualId={visualId} sliderValue={sliderValue} variableIndex={2} variableName="Total Energy" variableUnit="eV" />
                     </Col>
                     <Col className={styles.plotCol}>
-                        <VariablePlot visualId={visualId} sliderValue={sliderValue} variableIndex={18} variableName="Temperature" />
-                    </Col>
-                </Row>
-                <Row>
-                    <Col className={styles.plotCol}>
-                        <VariablePlot visualId={visualId} sliderValue={sliderValue} variableIndex={4} variableName="Coulomb Energy" />
-                    </Col>
-                    <Col className={styles.plotCol}>
-                        <VariablePlot visualId={visualId} sliderValue={sliderValue} variableIndex={5} variableName="Pair Energy" />
+                        <VariablePlot visualId={visualId} sliderValue={sliderValue} variableIndex={18} variableName="Temperature" variableUnit="K" />
                     </Col>
                 </Row>
                 <Row>
                     <Col className={styles.plotCol}>
-                        <VariablePlot visualId={visualId} sliderValue={sliderValue} variableIndex={6} variableName="Bond Energy" />
+                        <VariablePlot visualId={visualId} sliderValue={sliderValue} variableIndex={4} variableName="Coulomb Energy" variableUnit="eV" />
                     </Col>
                     <Col className={styles.plotCol}>
-                        <VariablePlot visualId={visualId} sliderValue={sliderValue} variableIndex={7} variableName="Angle Energy" />
-                    </Col>
-                </Row>
-                <Row>
-                    <Col className={styles.plotCol}>
-                        <VariablePlot visualId={visualId} sliderValue={sliderValue} variableIndex={8} variableName="Dihedral Energy" />
-                    </Col>
-                    <Col className={styles.plotCol}>
-                        <VariablePlot visualId={visualId} sliderValue={sliderValue} variableIndex={9} variableName="Improper Energy" />
+                        <VariablePlot visualId={visualId} sliderValue={sliderValue} variableIndex={5} variableName="Pair Energy" variableUnit="eV" />
                     </Col>
                 </Row>
                 <Row>
                     <Col className={styles.plotCol}>
-                        <VariablePlot visualId={visualId} sliderValue={sliderValue} variableIndex={10} variableName="Molecular Energy" />
+                        <VariablePlot visualId={visualId} sliderValue={sliderValue} variableIndex={6} variableName="Bond Energy" variableUnit="eV" />
                     </Col>
                     <Col className={styles.plotCol}>
-                        <VariablePlot visualId={visualId} sliderValue={sliderValue} variableIndex={11} variableName="Long-Range Energy" />
-                    </Col>
-                </Row>
-                <Row>
-                    <Col className={styles.plotCol}>
-                        <VariablePlot visualId={visualId} sliderValue={sliderValue} variableIndex={12} variableName="Tail Correction Energy" />
-                    </Col>
-                    <Col className={styles.plotCol}>
-                        <VariablePlot visualId={visualId} sliderValue={sliderValue} variableIndex={3} variableName="Van der Waals Energy" />
+                        <VariablePlot visualId={visualId} sliderValue={sliderValue} variableIndex={7} variableName="Angle Energy" variableUnit="eV" />
                     </Col>
                 </Row>
                 <Row>
                     <Col className={styles.plotCol}>
-                        <VariablePlot visualId={visualId} sliderValue={sliderValue} variableIndex={14} variableName="Energy Coupling" />
+                        <VariablePlot visualId={visualId} sliderValue={sliderValue} variableIndex={8} variableName="Dihedral Energy" variableUnit="eV" />
                     </Col>
                     <Col className={styles.plotCol}>
-                        <VariablePlot visualId={visualId} sliderValue={sliderValue} variableIndex={15} variableName="Energy Conservation" />
-                    </Col>
-                </Row>
-                <Row>
-                    <Col className={styles.plotCol}>
-                        <VariablePlot visualId={visualId} sliderValue={sliderValue} variableIndex={16} variableName="Kinetic Energy" />
-                    </Col>
-                    <Col className={styles.plotCol}>
-                        <VariablePlot visualId={visualId} sliderValue={sliderValue} variableIndex={17} variableName="Potential Energy" />
+                        <VariablePlot visualId={visualId} sliderValue={sliderValue} variableIndex={9} variableName="Improper Energy" variableUnit="eV" />
                     </Col>
                 </Row>
                 <Row>
                     <Col className={styles.plotCol}>
-                        <VariablePlot visualId={visualId} sliderValue={sliderValue} variableIndex={19} variableName="Pressure" />
+                        <VariablePlot visualId={visualId} sliderValue={sliderValue} variableIndex={10} variableName="Molecular Energy" variableUnit="eV" />
                     </Col>
                     <Col className={styles.plotCol}>
-                        <VariablePlot visualId={visualId} sliderValue={sliderValue} variableIndex={20} variableName="Volume" />
+                        <VariablePlot visualId={visualId} sliderValue={sliderValue} variableIndex={11} variableName="Long-Range Energy" variableUnit="eV" />
                     </Col>
                 </Row>
                 <Row>
                     <Col className={styles.plotCol}>
-                        <VariablePlot visualId={visualId} sliderValue={sliderValue} variableIndex={21} variableName="Density" />
+                        <VariablePlot visualId={visualId} sliderValue={sliderValue} variableIndex={12} variableName="Tail Correction Energy" variableUnit="eV" />
                     </Col>
                     <Col className={styles.plotCol}>
-                        <VariablePlot visualId={visualId} sliderValue={sliderValue} variableIndex={13} variableName="Enthalpy" />
+                        <VariablePlot visualId={visualId} sliderValue={sliderValue} variableIndex={3} variableName="Van der Waals Energy" variableUnit="eV" />
+                    </Col>
+                </Row>
+                <Row>
+                    <Col className={styles.plotCol}>
+                        <VariablePlot visualId={visualId} sliderValue={sliderValue} variableIndex={14} variableName="Energy Coupling" variableUnit="eV" />
+                    </Col>
+                    <Col className={styles.plotCol}>
+                        <VariablePlot visualId={visualId} sliderValue={sliderValue} variableIndex={15} variableName="Energy Conservation" variableUnit="eV" />
+                    </Col>
+                </Row>
+                <Row>
+                    <Col className={styles.plotCol}>
+                        <VariablePlot visualId={visualId} sliderValue={sliderValue} variableIndex={16} variableName="Kinetic Energy" variableUnit="eV" />
+                    </Col>
+                    <Col className={styles.plotCol}>
+                        <VariablePlot visualId={visualId} sliderValue={sliderValue} variableIndex={17} variableName="Potential Energy" variableUnit="eV" />
+                    </Col>
+                </Row>
+                <Row>
+                    <Col className={styles.plotCol}>
+                        <VariablePlot visualId={visualId} sliderValue={sliderValue} variableIndex={19} variableName="Pressure" variableUnit="atm" />
+                    </Col>
+                    <Col className={styles.plotCol}>
+                        <VariablePlot visualId={visualId} sliderValue={sliderValue} variableIndex={20} variableName="Volume" variableUnit="A^3" />
+                    </Col>
+                </Row>
+                <Row>
+                    <Col className={styles.plotCol}>
+                        <VariablePlot visualId={visualId} sliderValue={sliderValue} variableIndex={21} variableName="Density" variableUnit="g/cm^3" />
+                    </Col>
+                    <Col className={styles.plotCol}>
+                        <VariablePlot visualId={visualId} sliderValue={sliderValue} variableIndex={13} variableName="Enthalpy" variableUnit="eV" />
                     </Col>
                 </Row>
 
