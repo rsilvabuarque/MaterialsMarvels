@@ -159,7 +159,7 @@ class Visualize(Resource):
         # Output files: visualization.mp4, input.bgf (topology), master.lammpstrj (trajectory), log.lammps (LAMMPS log)
 
         # Return the visualId to the client
-        return {'visualId': visual_id}
+        return jsonify({'visualId': visual_id})
 
 
 api.add_resource(HelloWorld, '/api/')
