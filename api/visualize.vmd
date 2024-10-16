@@ -33,7 +33,7 @@ set rotation_step [expr 360 / $num_frames]  ;# Rotate 360 degrees over the traje
 set rotation_angle 0  ;# Start from 0 degrees
 
 # Loop over trajectory frames and render each one as an image
-for {set i 0} {$i < $num_frames} {incr i 50} {
+for {set i 0} {$i < $num_frames} {incr i 60} {
     animate goto $i
 
     # Rotate the camera
@@ -41,7 +41,7 @@ for {set i 0} {$i < $num_frames} {incr i 50} {
     incr rotation_angle $rotation_step
 
     # Render each frame to a TGA file (make the filenames sequential)
-    set new_index [expr {$i / 50}]
+    set new_index [expr {$i / 60}]
     render TachyonInternal frame_${new_index}.tga
 }
 
