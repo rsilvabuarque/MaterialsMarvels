@@ -19,7 +19,11 @@ async function sendMolData() {
 
   // Poll the server to check if the visualization is ready
   const interval = setInterval(async () => {
-    const checkResponse = await fetch(`/api/status?visualId=${visualId}`);
+    const checkResponse = await fetch(`/api/status?visualId=${visualId}`, {
+      headers: {
+        'Accept': 'application/json',
+      },
+    });
     const checkData = await checkResponse.json();
 
     if (checkData.status === 'completed') {
