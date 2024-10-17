@@ -10,7 +10,7 @@ function LoadingButton() {
     if (isLoading) {
       // When Button is clicked
       sendMolData().then(() => {
-        setLoading(false);
+        // setLoading(false);
       });
     }
   }, [isLoading]);
