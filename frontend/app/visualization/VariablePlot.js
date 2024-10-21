@@ -113,7 +113,7 @@ export default function VariablePlot({ visualId, sliderValue, variableIndex, var
     const visibleColors = colors.slice(0, sliderValue * maxSteps / 100);
 
     const coords = visibleSteps.map((el, index) => [el, visibleVariableData[index]]);
-    const polynomialRegression = regression.polynomial(coords, { order: 4, precision: 6 });
+    const polynomialRegression = regression.polynomial(coords, { order: 1, precision: 5 });
     const polynomialFitData = polynomialRegression.points.map(([x, y]) => ({ x, y }));
 
     const data = {
