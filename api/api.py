@@ -25,7 +25,7 @@ def convert_mdl_to_bgf(mdl_filename):
 
     # Step 1: Convert MDL to BGF using Open Babel
     subprocess.run(
-        ['obabel', '-imdl', mdl_filename, '-obgf', '-O', bgf_filename],
+        ['/root/anaconda3/bin/obabel', '-imdl', mdl_filename, '-obgf', '-O', bgf_filename],
         check=True
     )
     print(f"Converted {mdl_filename} to {bgf_filename}.")
