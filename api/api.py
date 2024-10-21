@@ -6,6 +6,7 @@ import subprocess
 import os
 import uuid
 import sys
+import re
 
 app = Flask(__name__)
 api = Api(app)
@@ -17,6 +18,60 @@ def after_request(response):
     response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
     response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
     return response
+
+def convert_mdl_to_bgf(mdl_filename):
+    """Converts an MDL V3000 file to a BGF file using Open Babel."""
+    bgf_filename = mdl_filename.replace('.mol', '.bgf')
+
+    # Step 1: Convert MDL to BGF using Open Babel
+    subprocess.run(
+        ['obabel', '-imdl', mdl_filename, '-obgf', '-O', bgf_filename],
+        check=True
+    )
+    print(f"Converted {mdl_filename} to {bgf_filename}.")
+
+    # Step 2: Extract charges from the MDL file
+    atom_charges = extract_charges_from_mdl(mdl_filename)
+
+    # Step 3: Update BGF file charges using sed
+    update_bgf_with_sed(bgf_filename, atom_charges)
+
+def extract_charges_from_mdl(mdl_filename):
+    """Extracts atomic charges from the MDL V3000 file."""
+    charges = {}
+    in_atom_section = False
+
+    with open(mdl_filename, 'r') as mdl_file:
+        for line in mdl_file:
+            # Detect the start and end of the ATOM section
+            if 'M  V30 BEGIN ATOM' in line:
+                in_atom_section = True
+                continue
+            elif 'M  V30 END ATOM' in line:
+                in_atom_section = False
+
+            # Extract atom ID and charge within the ATOM section
+            if in_atom_section:
+                match = re.match(r'M\s+V30\s+(\d+)\s+\w+\s+[-.\d]+\s+[-.\d]+\s+[-.\d]+\s+\d+\s+CHG=(-?\d+)', line)
+                if match:
+                    atom_id = int(match.group(1))
+                    charge = float(match.group(2))
+                    charges[atom_id] = charge
+
+    print(f"Extracted charges: {charges}")
+    return charges
+
+def update_bgf_with_sed(bgf_filename, atom_charges):
+    """Updates the BGF file with the extracted charges using sed."""
+    for atom_id, charge in atom_charges.items():
+        # Use sed to replace the charge in-place for the corresponding atom ID
+        # Construct a sed command to find the correct line based on atom ID and replace the charge
+        sed_command = (
+            f"sed -i '/HETATM *{atom_id} /s/\\( *[0-9.-]\\+\\)$/ {charge:8.5f}/' {bgf_filename}"
+        )
+        subprocess.run(sed_command, shell=True, check=True)
+
+    print(f"Updated {bgf_filename} with correct charges.")
 
 class HelloWorld(Resource):
     def get(self):
@@ -75,7 +130,7 @@ class Visualize(Resource):
         try:
             # Parse the input data
             parser = reqparse.RequestParser()
-            parser.add_argument('molfile', type=str, help='The molfile input (v2000)')
+            parser.add_argument('molfile', type=str, help='The molfile input (v3000)')
             parser.add_argument('temperature', type=int, help='The simulation temperature in Kelvin', default=298)
             args = parser.parse_args()
 
@@ -106,8 +161,7 @@ class Visualize(Resource):
             visual_dir = os.path.join('temp', visual_id)
             
             # Step 1: Run Open Babel to convert .mol to .bgf format
-            obabel_command = ['/root/anaconda3/bin/obabel', '-imol', 'input.mol', '-obgf', '-O', 'input.bgf']
-            subprocess.run(obabel_command, cwd=visual_dir, check=True)
+            convert_mdl_to_bgf(os.path.join(visual_dir, 'input.mol'))
 
             # Step 2: Run the createLammpsInput.pl script with the .bgf file and merge generated in.lammps with template in.lammps
             create_lammps_input_command = ['/root/ATLAS-toolkit/scripts/createLammpsInput.pl', '-b', 'input.bgf', '-f', 'UFF']
