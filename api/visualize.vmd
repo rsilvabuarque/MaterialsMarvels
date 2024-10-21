@@ -29,16 +29,16 @@ display resetview
 display resize 620 400
 
 # Define variables for rotation
-set rotation_step [expr 360.0 / $num_frames]  ;# Rotate 360 degrees over the trajectory
-set cumulative_rotation 0  ;# Keep track of the cumulative rotation
+set rotation_step [expr 360 / $num_frames]  ;# Rotate 360 degrees over the trajectory
+set rotation_angle 0  ;# Start from 0 degrees
 
 # Loop over trajectory frames and render each one as an image
 for {set i 0} {$i < $num_frames} {incr i 50} {
     animate goto $i
 
-    # Apply rotation cumulatively
-    set cumulative_rotation [expr {$cumulative_rotation + $rotation_step}]
-    rotate_matrix y $cumulative_rotation
+    # Rotate the camera
+    rotate y by $rotation_step
+    incr rotation_angle $rotation_step
 
     # Render each frame to a TGA file (make the filenames sequential)
     set new_index [expr {$i / 50}]
