@@ -32,7 +32,7 @@ print                "500 steps CG Minimization"
 print                ==========================================
 print                .
 
-thermo_style         custom step time etotal evdwl ecoul epair ebond eangle edihed eimp emol elong etail enthalpy ecouple econserve ke pe temp press vol density
+thermo_style         custom step temp press pe ke etotal evdwl ecoul epair ebond eangle edihed eimp emol elong etail enthalpy ecouple econserve vol density
 dump                 1 all custom 10 ${sname}.visualize.lammpstrj id type xu yu zu vx vy vz
 thermo               10
 min_style            sd
