@@ -1,4 +1,5 @@
 # Self-Assembly Simulation Project
+Educational platform for students to explore atomic and intermolecular forces through computational materials science
 
 ## Installation
 
